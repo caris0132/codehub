@@ -1,4 +1,9 @@
 <?php
+
+use App\Core\AntiSQLInjection;
+use App\Core\Database;
+use App\Core\Helper;
+
 session_start();
 @define('LIBRARIES', '../libraries/');
 @define('SOURCES', './sources/');
@@ -6,6 +11,17 @@ session_start();
 
 require_once '../vendor/autoload.php';
 require_once LIBRARIES . "config.php";
+
+AntiSQLInjection::sqlinjection();
+
+$d = new Database($config['database']);
+
+$com = $_REQUEST['com'] ? $_REQUEST['com'] : 'dashboard';
+$type = $_REQUEST['type'] ? $_REQUEST['type'] : 0;
+$act = $_REQUEST['act'];
+
+include COMPONENTS . "{$com}/index.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -220,9 +236,9 @@ require_once LIBRARIES . "config.php";
     </script>
 </head>
 
-<?php if( false ): ?>
+<?php if (true) : ?>
     <?php include COMPONENTS . 'pages/master_tpl.php' ?>
-<?php else: ?>
+<?php else : ?>
     <?php include COMPONENTS . 'pages/login_tpl.php' ?>
 <?php endif ?>
 

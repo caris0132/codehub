@@ -17,9 +17,9 @@
                     </div>
                 </section>
             <?php } ?>
-            <?php include TEMPLATE . $template . "_tpl.php"; ?>
+            <?php include COMPONENTS . "{$com}/{$template}_tpl.php"; ?>
         </div>
-        <?php include TEMPLATE . "layout/footer.php"; ?>
+        <?php include COMPONENTS . "layout/footer.php"; ?>
         <?php include "assets/js/myscript.php"; ?>
     </div>
 </body>
