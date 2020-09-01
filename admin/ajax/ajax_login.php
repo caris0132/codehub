@@ -71,7 +71,8 @@ if ($error == '') {
 				/* Tạo Session login */
 				$_SESSION[$login_admin] = true;
 				$_SESSION['login_admin']['username'] = $row['username'];
-				$_SESSION['login_admin']['id'] = $row['id'];
+                $_SESSION['login_admin']['id'] = $row['id'];
+                $_SESSION['login_admin']['is_root'] = $row['is_root'];
 				$_SESSION['login_admin']['quyen'] = $row['quyen'];
 				$_SESSION['login_admin']['token'] = $sessionhash;
 				$_SESSION['login_admin']['password'] = $row['password'];
@@ -88,7 +89,7 @@ if ($error == '') {
 
 				if ($nhomquyen['id']) {
 					$manhomquyen = $nhomquyen['id'];
-					$quyenuser = $d->rawQuery("select quyen from #_permission where ma_nhom_quyen = ?", array($manhomquyen));
+					$quyenuser = $d->rawQuery("select per_group_id from #_permission where id = ?", array($manhomquyen));
 
 					if (count($quyenuser)) {
 						foreach ($quyenuser as $value) $_SESSION['list_quyen'][] = $value['quyen'];

@@ -2,6 +2,14 @@
 
 switch ($act) {
     case 'man':
+        $template = 'man';
+        get_mans();
+    break;
+
+    case 'add':
+        $template = 'add';
+        break;
+
     case 'edit':
         $template = 'add';
         break;
@@ -11,6 +19,8 @@ switch ($act) {
         break;
 }
 
-var_dump($template);
+
+function get_mans() {
+}
 
 ?>

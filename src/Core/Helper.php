@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\Permission;
+
 class Helper
 {
     public static function redirect($url = '', $response = 301)
@@ -26,8 +28,18 @@ class Helper
         return md5($secret . $str . $salt);
     }
 
+    public static function isPermissionByAction($act)
+    {
+        return $_SESSION['login_admin']['is_root'] == 1 || Permission::getRoleByAction($act);
+    }
+
     public static function getMenuPermission($name, $com, $act, $type = '', $icon_class = 'far fa-caret-square-right', $array = null, $case = 'phrase-1')
     {
+
+        if (!self::isPermissionByAction($act)) {
+            return false;
+        }
+
         $add_class = 'nav-link';
 
         $str = '<li class="nav-item"><a class="{%class%}" href="{%url%}"><i class="nav-icon text-sm {%icon_class%}"></i><p>{%title%}</p></a></li>';

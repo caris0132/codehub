@@ -11,6 +11,7 @@ session_start();
 
 require_once '../vendor/autoload.php';
 require_once LIBRARIES . "config.php";
+require_once LIBRARIES . "type.php";
 
 AntiSQLInjection::sqlinjection();
 
@@ -236,10 +237,10 @@ include COMPONENTS . "{$com}/index.php";
     </script>
 </head>
 
-<?php if (true) : ?>
-    <?php include COMPONENTS . 'pages/master_tpl.php' ?>
-<?php else : ?>
+<?php if (empty($_SESSION[$login_admin])) : ?>
     <?php include COMPONENTS . 'pages/login_tpl.php' ?>
+<?php else : ?>
+    <?php include COMPONENTS . 'pages/master_tpl.php' ?>
 <?php endif ?>
 
 </html>

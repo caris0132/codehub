@@ -3,13 +3,15 @@
 $config_type[0] = [];
 
 //  san-pham
-$nametype = "san-pham";
-$config_type[$nametype]['product'] = [
+$config_type['san-pham']['product'] = [
     'title_main' => 'Sản phẩm',
     'noidung' => true,
     'mota' => true,
-    'seo' => true,
-    'title_main' => 'Sản phẩm',
+    'seo' => false,
+    'list' => true,
+    'cat' => false,
+    'item' => false,
+    'sub' => false,
     'images' => [
         'folder' => UPLOAD_PRODUCT,
         'width' => 300,
@@ -17,6 +19,55 @@ $config_type[$nametype]['product'] = [
         'type' => 300,
         'style' => 1,
         'ratio' => 2,
+    ],
+    'gallery' => [
+        'folder' => UPLOAD_PRODUCT,
+        'width' => 300,
+        'height' => 300,
+        'type' => 300,
+        'style' => 1,
+        'ratio' => 2,
+    ],
+    'check' => [
+        'hienthi' => 'Hiển thị',
+        'noibat' => 'Nổi bật',
+    ]
+];
+$config_type['san-pham']['product_list'] = [
+    'title_main' => 'Danh mục cấp 1',
+    'noidung' => true,
+    'mota' => true,
+    'seo' => true,
+    'images' => [
+        'folder' => UPLOAD_PRODUCT,
+        'width' => 300,
+        'height' => 300,
+        'type' => 300,
+        'style' => 1,
+        'ratio' => 2,
+    ],
+    'check' => [
+        'hienthi' => 'Hiển thị',
+        'noibat' => 'Nổi bật',
+    ]
+];
+
+$config_type['san-pham']['product_cat'] = [
+    'title_main' => 'Danh mục cấp 2',
+    'noidung' => true,
+    'mota' => true,
+    'seo' => true,
+    'images' => [
+        'folder' => UPLOAD_PRODUCT,
+        'width' => 300,
+        'height' => 300,
+        'type' => 300,
+        'style' => 1,
+        'ratio' => 2,
+    ],
+    'check' => [
+        'hienthi' => 'Hiển thị',
+        'noibat' => 'Nổi bật',
     ]
 ];
 
