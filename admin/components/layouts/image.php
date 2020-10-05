@@ -14,7 +14,7 @@
 
 <script>
     $("#input_image").fileinput({
-        theme: "fa",
+        theme: "fas",
         showUpload: false,
         showRemove: false,
         browseOnZoneClick: true,

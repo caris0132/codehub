@@ -21,6 +21,8 @@ $com = $_REQUEST['com'] ? $_REQUEST['com'] : 'dashboard';
 $type = $_REQUEST['type'] ? $_REQUEST['type'] : 0;
 $act = $_REQUEST['act'];
 
+$config_current = $config_type[$type ? $type : 0][$com];
+
 include COMPONENTS . "{$com}/index.php";
 
 ?>
@@ -67,7 +69,7 @@ include COMPONENTS . "{$com}/index.php";
     <script src="assets/jscolor/jscolor.js"></script>
     <script src="assets/filer/jquery.filer.js"></script>
     <script src="assets/bootstrap-fileinput/js/fileinput.min.js"></script>
-    <script src="assets/bootstrap-fileinput/themes/fa/theme.js"></script>
+    <script src="assets/bootstrap-fileinput/themes/fas/theme.js"></script>
     <script src="assets/holdon/HoldOn.js"></script>
     <script src="assets/sortable/Sortable.js"></script>
     <script src="assets/js/bootstrap.bundle.js"></script>
