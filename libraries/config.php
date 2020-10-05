@@ -17,7 +17,7 @@ $config['author'] = [
 ];
 
 $config['website'] = [
-    'folder' => '/codehub/',
+    'folder' => '/codehub',
     'secret' => '$nina@',
     'salt' => 'swKJjeS!t',
     'debug' => true,
@@ -81,7 +81,7 @@ if ($config['arrayDomainSSL']) require_once LIBRARIES . "checkSSL.php";
 $http = 'http';
 if ($_SERVER["HTTPS"] == "on") $http .= "s";
 $http .= "://";
-$config_base = $http . $_SERVER['SERVER_NAME'] . $config['database']['url'];
+$config_base = $http . $_SERVER['SERVER_NAME'] . $config['website']['folder'];
 
 /* Cấu hình ckeditor */
 $_SESSION['baseUrl'] = $config_base . $config['ckeditor']['folder'];

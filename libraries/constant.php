@@ -32,3 +32,5 @@ if (!@defined('LIBRARIES')) die("Error");
 
 @define('UPLOAD_TAGS', '../upload/tags/');
 @define('UPLOAD_TAGS_L', 'upload/tags/');
+
+@define('MINE_TYPE_IMAGE', 'jpg|gif|png|jpeg|gif|JPG|PNG|JPEG|Png|GIF');

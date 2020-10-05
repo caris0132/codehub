@@ -47,6 +47,7 @@ include COMPONENTS . "{$com}/index.php";
     <link href="assets/filer/jquery.filer.css" rel="stylesheet">
     <link href="assets/filer/jquery.filer-dragdropbox-theme.css" rel="stylesheet">
     <link href="assets/holdon/HoldOn.css" rel="stylesheet">
+    <link href="assets/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
     <link href="assets/css/adminlte.css" rel="stylesheet">
     <link href="assets/css/adminlte-style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -65,6 +66,8 @@ include COMPONENTS . "{$com}/index.php";
     <script src="assets/js/priceFormat.js"></script>
     <script src="assets/jscolor/jscolor.js"></script>
     <script src="assets/filer/jquery.filer.js"></script>
+    <script src="assets/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="assets/bootstrap-fileinput/themes/fa/theme.js"></script>
     <script src="assets/holdon/HoldOn.js"></script>
     <script src="assets/sortable/Sortable.js"></script>
     <script src="assets/js/bootstrap.bundle.js"></script>

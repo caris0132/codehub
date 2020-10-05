@@ -1,10 +1,4 @@
 <?php
-$linkView = $config_base;
-$linkMan = $linkFilter = "index.php?com=$com&act=man&type=$type&p=$curPage";
-$linkAdd = "index.php?com=$com&act=add&type=$type&p=$curPage";
-$linkCopy = "index.php?com=$com&act=copy&type=$type&p=$curPage";
-$linkEdit = "index.php?com=$com&act=edit&type=$type&p=$curPage";
-$linkDelete = "index.php?com=$com&act=delete&type=$type&p=$curPage";
 
 function get_main_list()
 {
@@ -90,7 +84,7 @@ function get_main_sub()
         <div class="row">
             <ol class="breadcrumb float-sm-left">
                 <li class="breadcrumb-item"><a href="index.php" title="Bảng điều khiển">Bảng điều khiển</a></li>
-                <li class="breadcrumb-item active"><?= $labelAct ?> <?= $config_type[$type][$com]['title_main'] ?></li>
+                <li class="breadcrumb-item active"><?= $labelAct ?> <?= $config_current['title_main'] ?></li>
             </ol>
         </div>
     </div>
@@ -109,32 +103,32 @@ function get_main_sub()
             <div class="col-md-12">
                 <div class="card card-primary card-outline text-sm">
                     <div class="card-header">
-                        <h3 class="card-title">Danh mục <?= $config_type[$type][$com]['title_main'] ?></h3>
+                        <h3 class="card-title">Danh mục <?= $config_current['title_main'] ?></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group-category row">
-                            <?php if ($config_type[$type][$com]['list']) { ?>
+                            <?php if ($config_current['list']) { ?>
                                 <div class="form-group col-xl-4 col-sm-4">
                                     <label class="d-block" for="id_list">Danh mục cấp 1:</label>
                                     <?= get_main_list() ?>
                                 </div>
                             <?php } ?>
-                            <?php if ($config_type[$type][$com]['cat']) { ?>
+                            <?php if ($config_current['cat']) { ?>
                                 <div class="form-group col-xl-4 col-sm-4">
                                     <label class="d-block" for="id_cat">Danh mục cấp 2:</label>
                                     <?= get_main_cat() ?>
                                 </div>
                             <?php } ?>
-                            <?php if ($config_type[$type][$com]['item']) { ?>
+                            <?php if ($config_current['item']) { ?>
                                 <div class="form-group col-xl-4 col-sm-4">
                                     <label class="d-block" for="id_item">Danh mục cấp 3:</label>
                                     <?= get_main_item() ?>
                                 </div>
                             <?php } ?>
-                            <?php if ($config_type[$type][$com]['sub']) { ?>
+                            <?php if ($config_current['sub']) { ?>
                                 <div class="form-group col-xl-4 col-sm-4">
                                     <label class="d-block" for="id_sub">Danh mục cấp 4:</label>
                                     <?= get_main_sub() ?>
@@ -144,35 +138,35 @@ function get_main_sub()
                     </div>
                 </div>
 
-                <?php if ($config_type[$type][$com]['images']) { ?>
+                <?php if ($config_current['images']['enable']) { ?>
                     <div class="card card-primary card-outline text-sm">
                         <div class="card-header">
-                            <h3 class="card-title">Hình ảnh <?= $config_type[$type][$com]['title_main'] ?></h3>
+                            <h3 class="card-title">Hình ảnh <?= $config_current['title_main'] ?></h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                             </div>
                         </div>
                         <div class="card-body">
                             <?php
-                            $photoDetail = $config_type[$type][$com]['images']['folder'] . $item['photo'];
-                            $dimension = "Width: " . $config_type[$type][$com]['images']['width'] . " px - Height: " . $config_type[$type][$com]['images']['height'] . " px (" . $config_type[$type][$com]['type'] . ")";
+                            $photoDetail = $config_current['images']['folder'] . $item['photo'];
+                            $dimension = "Width: " . $config_current['images']['width'] . " px - Height: " . $config_current['images']['height'] . " px (" . $config_current['images']['mine_type'] . ")";
                             include COMPONENTS . "layouts/image.php";
                             ?>
                         </div>
                     </div>
                 <?php } ?>
 
-                <?php if ($config_type[$type][$com]['gallery']) { ?>
+                <?php if ($config_current['gallery']['enable']) { ?>
                     <div class="card card-primary card-outline text-sm">
                         <div class="card-header">
-                            <h3 class="card-title">Bộ sưu tập <?= $config_type[$type][$com]['title_main'] ?></h3>
+                            <h3 class="card-title">Bộ sưu tập <?= $config_current['title_main'] ?></h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="filer-gallery" class="label-filer-gallery mb-3">Album hình: (<?= $config_type[$type][$com]['gallery']['type']['img_type_photo'] ?>)</label>
+                                <label for="filer-gallery" class="label-filer-gallery mb-3">Album hình: (<?= $config_current['gallery']['mine_type'] ?>)</label>
                                 <input type="file" name="files[]" id="filer-gallery" multiple="multiple">
                                 <input type="hidden" class="col-filer" value="col-xl-3 col-sm-3 col-6">
                                 <input type="hidden" class="act-filer" value="man">
@@ -199,7 +193,7 @@ function get_main_sub()
             </div>
             <div class="col-md-12">
                 <?php
-                if ($config_type[$type][$com]['slug']) {
+                if ($config_current['slug']) {
                     $slugchange = ($act == 'edit') ? 1 : 0;
                     $copy = ($act != 'copy') ? 0 : 1;
                     include TEMPLATE . LAYOUT . "slug.php";
@@ -207,7 +201,7 @@ function get_main_sub()
                 ?>
                 <div class="card card-primary card-outline text-sm">
                     <div class="card-header">
-                        <h3 class="card-title">Nội dung <?= $config_type[$type][$com]['title_main'] ?></h3>
+                        <h3 class="card-title">Nội dung <?= $config_current['title_main'] ?></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                         </div>
@@ -231,16 +225,16 @@ function get_main_sub()
                                                 <label for="ten_<?= $k ?>">Tiêu đề (<?= $k ?>):</label>
                                                 <input type="text" class="form-control for-seo" name="data[ten_<?= $k ?>]" id="ten_<?= $k ?>" placeholder="Tiêu đề (<?= $k ?>)" value="<?= $item['ten_' . $k] ?>" <?= ($k == 'vi') ? 'required' : '' ?>>
                                             </div>
-                                            <?php if ($config_type[$type][$com]['mota']) { ?>
+                                            <?php if ($config_current['mota']) { ?>
                                                 <div class="form-group">
                                                     <label for="mota_<?= $k ?>">Mô tả (<?= $k ?>):</label>
-                                                    <textarea class="form-control for-seo <?= ($config_type[$type][$com]['mota_cke']) ? 'form-control-ckeditor' : '' ?>" name="data[mota_<?= $k ?>]" id="mota_<?= $k ?>" rows="5" placeholder="Mô tả (<?= $k ?>)"><?= htmlspecialchars_decode($item['mota_' . $k]) ?></textarea>
+                                                    <textarea class="form-control for-seo <?= ($config_current['mota_cke']) ? 'form-control-ckeditor' : '' ?>" name="data[mota_<?= $k ?>]" id="mota_<?= $k ?>" rows="5" placeholder="Mô tả (<?= $k ?>)"><?= htmlspecialchars_decode($item['mota_' . $k]) ?></textarea>
                                                 </div>
                                             <?php } ?>
-                                            <?php if ($config_type[$type][$com]['noidung']) { ?>
+                                            <?php if ($config_current['noidung']) { ?>
                                                 <div class="form-group">
                                                     <label for="noidung_<?= $k ?>">Nội dung (<?= $k ?>):</label>
-                                                    <textarea class="form-control for-seo <?= ($config_type[$type][$com]['noidung_cke']) ? 'form-control-ckeditor' : '' ?>" name="data[noidung_<?= $k ?>]" id="noidung_<?= $k ?>" rows="5" placeholder="Nội dung (<?= $k ?>)"><?= htmlspecialchars_decode($item['noidung_' . $k]) ?></textarea>
+                                                    <textarea class="form-control for-seo <?= ($config_current['noidung_cke']) ? 'form-control-ckeditor' : '' ?>" name="data[noidung_<?= $k ?>]" id="noidung_<?= $k ?>" rows="5" placeholder="Nội dung (<?= $k ?>)"><?= htmlspecialchars_decode($item['noidung_' . $k]) ?></textarea>
                                                 </div>
                                             <?php } ?>
                                         </div>
@@ -255,7 +249,7 @@ function get_main_sub()
         </div>
         <div class="card card-primary card-outline text-sm">
             <div class="card-header">
-                <h3 class="card-title">Thông tin <?= $config_type[$type][$com]['title_main'] ?></h3>
+                <h3 class="card-title">Thông tin <?= $config_current['title_main'] ?></h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                 </div>
@@ -272,7 +266,7 @@ function get_main_sub()
                     <label for="stt" class="d-inline-block align-middle mb-0 mr-2">Số thứ tự:</label>
                     <input type="number" class="form-control form-control-mini d-inline-block align-middle" min="0" name="data[stt]" id="stt" placeholder="Số thứ tự" value="<?= isset($item['stt']) ? $item['stt'] : 1 ?>">
                 </div>
-                <?php if ($config_type[$type][$com]['file']) { ?>
+                <?php if ($config_current['file']) { ?>
                     <div class="form-group">
                         <label class="change-file mb-1 mr-2" for="file-taptin">
                             <p>Upload tập tin:</p>
@@ -281,7 +275,7 @@ function get_main_sub()
                                 <div><b class="text-sm text-split"></b></div>
                             </strong>
                         </label>
-                        <strong class="d-block mt-2 mb-2 text-sm"><?php echo $config_type[$type][$com]['file_type']; ?></strong>
+                        <strong class="d-block mt-2 mb-2 text-sm"><?php echo $config_current['file_type']; ?></strong>
                         <div class="custom-file my-custom-file d-none">
                             <input type="file" class="custom-file-input" name="file-taptin" id="file-taptin">
                             <label class="custom-file-label" for="file-taptin">Chọn file</label>
@@ -292,13 +286,13 @@ function get_main_sub()
                     </div>
                 <?php } ?>
                 <div class="row">
-                    <?php if ($config_type[$type][$com]['ma']) { ?>
+                    <?php if ($config_current['ma']) { ?>
                         <div class="form-group col-md-4">
                             <label class="d-block" for="masp">Mã sản phẩm:</label>
                             <input type="text" class="form-control" name="data[masp]" id="masp" placeholder="Mã sản phẩm" value="<?= $item['masp'] ?>">
                         </div>
                     <?php } ?>
-                    <?php if ($config_type[$type][$com]['gia']) { ?>
+                    <?php if ($config_current['gia']) { ?>
                         <div class="form-group col-md-4">
                             <label class="d-block" for="gia">Giá bán:</label>
                             <div class="input-group">
@@ -309,7 +303,7 @@ function get_main_sub()
                             </div>
                         </div>
                     <?php } ?>
-                    <?php if ($config_type[$type][$com]['giamoi']) { ?>
+                    <?php if ($config_current['giamoi']) { ?>
                         <div class="form-group col-md-4">
                             <label class="d-block" for="giamoi">Giá mới:</label>
                             <div class="input-group">
@@ -320,7 +314,7 @@ function get_main_sub()
                             </div>
                         </div>
                     <?php } ?>
-                    <?php if ($config_type[$type][$com]['giakm']) { ?>
+                    <?php if ($config_current['giakm']) { ?>
                         <div class="form-group col-md-4">
                             <label class="d-block" for="giakm">Chiết khấu:</label>
                             <div class="input-group">
@@ -331,19 +325,19 @@ function get_main_sub()
                             </div>
                         </div>
                     <?php } ?>
-                    <?php if ($config_type[$type][$com]['link']) { ?>
+                    <?php if ($config_current['link']) { ?>
                         <div class="form-group col-md-4">
                             <label for="link">Link:</label>
                             <input type="text" class="form-control" name="data[link]" id="link" placeholder="Link" value="<?= $item['link'] ?>">
                         </div>
                     <?php } ?>
-                    <?php if ($config_type[$type][$com]['video']) { ?>
+                    <?php if ($config_current['video']) { ?>
                         <div class="form-group col-md-4">
                             <label for="link_video">Video:</label>
                             <input type="text" class="form-control" name="data[link_video]" id="link_video" placeholder="Video" value="<?= $item['link_video'] ?>">
                         </div>
                     <?php } ?>
-                    <?php if ($config_type[$type][$com]['tinhtrang']) { ?>
+                    <?php if ($config_current['tinhtrang']) { ?>
                         <div class="form-group col-md-4">
                             <label for="tinhtrang">Tình trạng:</label>
                             <select class="form-control" name="data[tinhtrang]" id="tinhtrang">
@@ -356,7 +350,7 @@ function get_main_sub()
                 </div>
             </div>
         </div>
-        <?php if ($config_type[$type][$com]['seo']) { ?>
+        <?php if ($config_current['seo']) { ?>
             <div class="card card-primary card-outline text-sm">
                 <div class="card-header">
                     <h3 class="card-title">Nội dung SEO</h3>
@@ -380,7 +374,7 @@ function get_main_sub()
     </form>
 </section>
 
-<?php if ($config_type[$type][$com]['giakm']) { ?>
+<?php if ($config_current['giakm']) { ?>
     <script type="text/javascript">
         function roundNumber(rnum, rlength) {
             return Math.round(rnum * Math.pow(10, rlength)) / Math.pow(10, rlength);
