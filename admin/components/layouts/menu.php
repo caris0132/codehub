@@ -26,8 +26,7 @@ use App\Core\Helper;
 
                 <!-- Sản phẩm -->
                 <li class="nav-item has-treeview">
-                    <?php $active = ($type == 'san-pham') ? 'active' : ''; ?>
-                    <a class="nav-link <?= $active ?>" href="#" title="Quản lý sản phẩm">
+                    <a class="nav-link" href="#" title="Quản lý sản phẩm">
                         <i class="nav-icon text-sm fas fa-boxes"></i>
                         <p>Quản lý Sản phẩm<i class="right fas fa-angle-left"></i></p>
                     </a>
@@ -48,8 +47,7 @@ use App\Core\Helper;
 
                 <!-- Bài viết (Có cấp) -->
                 <li class="nav-item has-treeview">
-                    <?php $active = ($type == 'tin-tuc') ? 'active' : ''; ?>
-                    <a class="nav-link <?= $active ?>" href="#" title="Quản lý tin tức">
+                    <a class="nav-link" href="#" title="Quản lý tin tức">
                         <i class="nav-icon text-sm fas fa-boxes"></i>
                         <p>Quản lý tin tức<i class="right fas fa-angle-left"></i></p>
                     </a>

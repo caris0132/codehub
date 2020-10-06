@@ -20,7 +20,6 @@ AntiSQLInjection::sqlinjection();
 
 $d = new Database($config['database']);
 $seo = new Seo($d);
-
 /* Router */
 require_once LIBRARIES . "router.php";
 /* Template */

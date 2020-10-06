@@ -7,6 +7,8 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 /* Cấu hình coder */
 define('NN_MSHD', 'MSHD');
 define('NN_AUTHOR', 'nguyenductri.nina@gmail.com');
+define('ROOT', dirname(__DIR__));
+
 
 /* Cấu hình chung */
 

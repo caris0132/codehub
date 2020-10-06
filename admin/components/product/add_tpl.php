@@ -138,7 +138,7 @@ function get_main_sub()
                     </div>
                 </div>
 
-                <?php if ($config_current['images']['enable']) { ?>
+                <?php if ($config_current['image']['enable']) { ?>
                     <div class="card card-primary card-outline text-sm">
                         <div class="card-header">
                             <h3 class="card-title">Hình ảnh <?= $config_current['title_main'] ?></h3>
@@ -148,8 +148,8 @@ function get_main_sub()
                         </div>
                         <div class="card-body">
                             <?php
-                            $photoDetail = $config_current['images']['folder'] . $item['photo'];
-                            $dimension = "Width: " . $config_current['images']['width'] . " px - Height: " . $config_current['images']['height'] . " px (" . $config_current['images']['mine_type'] . ")";
+                            $photoDetail = $config_current['image']['folder'] . $item['photo'];
+                            $dimension = "Width: " . $config_current['image']['width'] . " px - Height: " . $config_current['image']['height'] . " px (" . $config_current['image']['mine_type'] . ")";
                             include COMPONENTS . "layouts/image.php";
                             ?>
                         </div>

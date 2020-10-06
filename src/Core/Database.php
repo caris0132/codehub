@@ -1,13 +1,20 @@
 <?php
+
 namespace App\Core;
 
 use MysqliDb;
+
 class Database extends MysqliDb
 {
     public function rawQuery($query, $params = null)
     {
-        $query = str_replace('#_', parent::$prefix, $query);
+        $query = str_replace('#_', self::$prefix, $query);
         return parent::rawQuery($query, $params);
+    }
+    public function rawQueryOne($query, $params = null)
+    {
+        $query = str_replace('#_', self::$prefix, $query);
+        return parent::rawQueryOne($query, $params);
     }
     public function getLastInsertId()
     {
@@ -16,37 +23,40 @@ class Database extends MysqliDb
 
     public function insert($tableName, $insertData)
     {
-
-        return $this->_buildInsert($tableName, $insertData, 'INSERT');
+        $insertData = $this->prepareDataBeforeQuery($tableName, $insertData);
+        return parent::insert($tableName, $insertData);
     }
 
-    private function _buildInsert($tableName, $insertData, $operation)
+    public function prepareDataBeforeQuery($tableName, $data)
     {
-        if ($this->isSubQuery) {
-            return;
-        }
+        $values = "";
+        $pri = '';
+        $sql = "SHOW COLUMNS FROM " . self::$prefix . $tableName;
+        $columnSchema = $this->rawQuery($sql);
 
-        $this->_query = $operation . " " . implode(' ', $this->_queryOptions) . " INTO " . self::$prefix . $tableName;
-        $stmt = $this->_buildQuery(null, $insertData);
-        $status = $stmt->execute();
-        $this->_stmtError = $stmt->error;
-        $this->_stmtErrno = $stmt->errno;
-        $haveOnDuplicate = !empty ($this->_updateColumns);
-        $this->reset();
-        $this->count = $stmt->affected_rows;
+        $info_column = $this->arrayChangeKeyValue($columnSchema, 'Field');
 
-        if ($stmt->affected_rows < 1) {
-            // in case of onDuplicate() usage, if no rows were inserted
-            if ($status && $haveOnDuplicate) {
-                return true;
+        foreach ($data as $key => $value) {
+            if (strtolower($info_column[$key]['Key']) == "pri") {
+                unset($data[$key]);
+            } elseif (strpos($info_column[$key]['Type'], 'int') !== false | strpos($info_column[$key]['Type'], 'float') !== false | strpos($info_column[$key]['Type'], 'double') !== false) {
+                if ($data[$key] == false || !is_numeric($data[$key])) {
+                    $data[$key] = 0;
+                }
+                $data[$key] = floatval($data[$key]);
+
             }
-            return false;
         }
+        return $data;
 
-        if ($stmt->insert_id > 0) {
-            return $stmt->insert_id;
+    }
+
+    public function arrayChangeKeyValue($data, $groupByKey)
+    {
+        $groupArray = array();
+        foreach ($data as $singleData) {
+            $groupArray[$singleData[$groupByKey]] = $singleData;
         }
-
-        return true;
+        return $groupArray;
     }
 }

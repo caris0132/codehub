@@ -158,7 +158,7 @@ function get_main_brand()
                             </div>
                         </th>
                         <th class="align-middle text-center" width="10%">STT</th>
-                        <?php if ($config_current['images']) { ?>
+                        <?php if ($config_current['image']) { ?>
                             <th class="align-middle">Hình</th>
                         <?php } ?>
                         <th class="align-middle" style="width:30%">Tiêu đề</th>
@@ -197,9 +197,9 @@ function get_main_brand()
                                 <td class="align-middle">
                                     <input type="number" class="form-control form-control-mini m-auto update-stt" min="0" value="<?= $items[$i]['stt'] ?>" data-id="<?= $items[$i]['id'] ?>" data-table="product">
                                 </td>
-                                <?php if ($config_current['images']) { ?>
+                                <?php if ($config_current['image']) { ?>
                                     <td class="align-middle">
-                                        <a href="<?= $linkEdit ?><?= $linkID ?>&id=<?= $items[$i]['id'] ?>" title="<?= $items[$i]['ten_vi'] ?>"><img class="rounded img-preview" onerror="src='assets/images/noimage.png'" src="<?= THUMBS ?>/<?= $config_current['thumb'] ?>/<?= UPLOAD_PRODUCT_L . $items[$i]['photo'] ?>" alt="<?= $items[$i]['ten_vi'] ?>"></a>
+                                        <a href="<?= $linkEdit ?><?= $linkID ?>&id=<?= $items[$i]['id'] ?>" title="<?= $items[$i]['ten_vi'] ?>"><img class="rounded img-preview" onerror="src='assets/images/noimage.png'" src="<?= $config_base ?>/thumb/<?= $config_current['image']['width'] ?>x<?= $config_current['image']['height'] ?>/<?= $config_current['image']['style'] ?>/<?= UPLOAD_PRODUCT_L . $items[$i]['photo'] ?>" alt="<?= $items[$i]['ten_vi'] ?>"></a>
                                     </td>
                                 <?php } ?>
                                 <td class="align-middle">

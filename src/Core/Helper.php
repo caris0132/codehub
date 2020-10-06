@@ -44,9 +44,9 @@ class Helper
 
         $str = '<li class="nav-item"><a class="{%class%}" href="{%url%}"><i class="nav-icon text-sm {%icon_class%}"></i><p>{%title%}</p></a></li>';
 
-        if ($com == $_GET['com'] && $act == $_GET['act'] && $type == $_GET['type']) {
-            $add_class .= ' active';
-        }
+        // if ($com == $_GET['com'] && $type == $_GET['type']) {
+        //     $add_class .= ' active';
+        // }
 
         $arr_option = [
             'title' => $name,
@@ -189,7 +189,8 @@ class Helper
         $page_transfer = $page;
         $stt = $stt;
 
-        include("./templates/transfer_tpl.php");
+        include("./components/layouts/transfer.php");
+
         exit();
     }
 
@@ -197,7 +198,7 @@ class Helper
     {
         $text = urldecode($string);
         $text = htmlspecialchars_decode($text);
-        $text = strtolower(utf8convert($text));
+        $text = strtolower(self::utf8convert($text));
         $text = preg_replace("/[^a-z0-9-\s]/", "", $text);
         $text = preg_replace('/([\s]+)/', '-', $text);
         $text = preg_replace('/([\-]+)/', '-', $text);
@@ -228,7 +229,7 @@ class Helper
         $rand = rand(1000, 9999);
         $ten_anh = explode(".", $name);
         $duoi_anh = $ten_anh[1];
-        $result = changeTitle($ten_anh[0]) . "-" . $rand;
+        $result = self::changeTitle($ten_anh[0]) . "-" . $rand;
         return $result;
     }
 
@@ -240,7 +241,7 @@ class Helper
             $name = basename($_FILES[$file]['name'], '.' . $ext);
 
             if (strpos($extension, $ext) === false) {
-                alert('Chỉ hỗ trợ upload file dạng ' . $extension);
+                self::alert('Chỉ hỗ trợ upload file dạng ' . $extension);
                 return false;
             }
 
@@ -255,6 +256,11 @@ class Helper
                 $_FILES[$file]['name'] = $newname . '.' . $ext;
             }
 
+            // create folder if dont exist;
+            if (!file_exists($folder)) {
+                var_dump(mkdir($folder, 0777, true));
+            }
+
             if (!copy($_FILES[$file]["tmp_name"], $folder . $_FILES[$file]['name'])) {
                 if (!move_uploaded_file($_FILES[$file]["tmp_name"], $folder . $_FILES[$file]['name'])) {
                     return false;
@@ -264,4 +270,11 @@ class Helper
         }
         return false;
     }
+
+    public static function alert($message)
+    {
+        echo '<script language="javascript"> alert("' . $message . '") </script>';
+    }
+
+
 }

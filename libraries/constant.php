@@ -34,3 +34,7 @@ if (!@defined('LIBRARIES')) die("Error");
 @define('UPLOAD_TAGS_L', 'upload/tags/');
 
 @define('MINE_TYPE_IMAGE', 'jpg|gif|png|jpeg|gif|JPG|PNG|JPEG|Png|GIF');
+
+
+@define('UPLOAD_CACHE', '../upload/cache/');
+@define('UPLOAD_CACHE_L', 'upload/cache/');

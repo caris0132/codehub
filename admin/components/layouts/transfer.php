@@ -3,7 +3,7 @@
     <TITLE>:: Thông Báo ::</TITLE>
     <base href="<?=$basehref?>"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="REFRESH" content="4.5; url=<?="admin/".$page_transfer?>">
+    <meta http-equiv="REFRESH" content="4.5; url=<?=$page_transfer?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="robots" content="noodp,noindex,nofollow" />
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
@@ -44,15 +44,15 @@
         <i class="fas <?=($stt)?'fa-check-circle fasuccess':'fa-exclamation-triangle fadanger'?>"></i>
         <div class="title">Thông báo</div>
         <div class="message alert <?=($stt) ? 'alert-success' : 'alert-danger'?>"><?=$showtext?></div>
-        <div class="rlink">(<a href="<?="admin/".$page_transfer?>" >Click vào đây nếu không muốn đợi lâu</a>)</div>
+        <div class="rlink">(<a href="<?=$page_transfer?>" >Click vào đây nếu không muốn đợi lâu</a>)</div>
         <div class="progress"><div id="process-bar" class="progress-bar progress-bar-striped progress-bar-<?=($stt) ? 'success' : 'danger'?> active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div>
     </div>
     <script type="text/javascript">
-        var elem = document.getElementById("process-bar"); 
+        var elem = document.getElementById("process-bar");
         var pos = 0;
         setInterval(function(){
-            pos+=1; 
-            elem.style.width = pos + '%'; 
+            pos+=1;
+            elem.style.width = pos + '%';
         },40);
     </script>
 </BODY>

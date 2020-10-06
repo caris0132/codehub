@@ -23,6 +23,7 @@ switch ($act) {
         break;
 
     case 'edit':
+        get_man();
         $template = 'add';
         break;
 
@@ -53,6 +54,18 @@ function get_mans()
     $paging = Helper::pagination($d->totalPages, $per_page, $curPage);
 }
 
+function get_man()
+{
+    global $d, $item, $type, $com;
+
+    $id = htmlspecialchars($_GET['id']);
+    if (empty($id)) {
+        Helper::transfer("Không nhận được dữ liệu", Helper::createLink(['act' => 'man']));
+    }
+    $d->where('id', $id);
+    $item = $d->getOne($com, '*');
+}
+
 function save_man()
 {
     global $d, $strUrl, $curPage, $config, $com, $act, $type, $config_current;
@@ -66,8 +79,8 @@ function save_man()
     // common
     $data = $_POST['data'];
 
-    $data['giaban'] = str_replace(",", "", $data['giaban']);
-    $data['giacu'] = str_replace(",", "", $data['giacu']);
+    $data['giaban'] = (int)str_replace(",", "", $data['giaban']);
+    $data['giacu'] = (int)str_replace(",", "", $data['giacu']);
     $data['type'] = $type;
 
     // check box hiển thị / nb ...
@@ -75,9 +88,8 @@ function save_man()
         $data[$key] = $data[$key] ? 1 : 0;
     }
 
-
     if (empty($data['tenkhongdau'])) {
-        $data['tenkhongdau'] = Helper::changeTitle($data['tenkhongdau']);
+        $data['tenkhongdau'] = Helper::changeTitle($data['ten_vi']);
     }
 
     if ($id) {
@@ -86,18 +98,17 @@ function save_man()
 
             $row = $d->rawQueryOne("select id, photo from #_{$com} where id = ? and type = ?", array($id, $type));
             if ($row['id']) {
-                delete_file($config_current['image']['folder'] . $row['photo']);
+                //Helper::deleteFile($config_current['image']['folder'] . $row['photo']);
             }
         }
 
         $data['ngaysua'] = time();
-
 		$d->where('id', $id);
         $d->where('type', $type);
         if ($d->update($com, $data)) {
-            transfer('Cập nhật dữ liệu thành công!', Helper::createLink(['act' => 'man', 'p' => $curPage]));
+            Helper::transfer('Cập nhật dữ liệu thành công!', Helper::createLink(['act' => 'man', 'p' => $curPage]));
         } else {
-            transfer('Cập nhật dữ liệu bị lỗi!', Helper::createLink(['act' => 'edit', 'id' => $id]), 0);
+            Helper::transfer('Cập nhật dữ liệu bị lỗi!', Helper::createLink(['act' => 'edit', 'id' => $id]), 0);
         }
 
     } else {
@@ -109,9 +120,10 @@ function save_man()
 
         if($d->insert($com,$data)) {
             $id_insert = $d->getLastInsertId();
-            transfer("Lưu dữ liệu thành công", Helper::createLink(['act' => 'man', 'p' => $curPage]));
+            Helper::transfer("Lưu dữ liệu thành công", Helper::createLink(['act' => 'man', 'p' => $curPage]));
         } else {
-            transfer('Cập nhật dữ liệu bị lỗi!', Helper::createLink(['act' => 'add']), 0);
+            var_dump($d->getLastError());
+            Helper::transfer('Cập nhật dữ liệu bị lỗi!', Helper::createLink(['act' => 'add']), 0);
         }
     }
 }
