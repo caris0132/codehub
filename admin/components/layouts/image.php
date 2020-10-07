@@ -10,7 +10,15 @@
 	<div class="photoUpload-dimension"><?= $dimension ?></div>
 </div> -->
 
-<input id="input_image" name="image" type="file" class="file">
+<div class="photoUpload-zone">
+
+    <?php if ($item['photo']) : ?>
+        <div class="photoUpload-detail" id="photoUpload-preview"><img class="rounded" src="<?= $config_current['image']['folder'] . $item['photo'] ?>" onerror="noImg(this, <?= $config_current['image']['width'] ?>, <?= $config_current['image']['height'] ?>)" alt="Alt Photo"></div>
+    <?php endif; ?>
+
+    <input id="input_image" name="image" type="file" class="file">
+</div>
+
 
 
 <script>
@@ -18,13 +26,13 @@
         theme: "fas",
         showUpload: false,
         showRemove: false,
-        browseOnZoneClick: true,
+        showPreview: false,
+        browseOnZoneClick: false,
+        maxFileSize: 10000, // KB
+        initialPreviewAsData: true,
         allowedFileExtensions: <?= json_encode(explode('|', $config_current['image']['mine_type'])) ?>,
         <?php if ($item['photo']) : ?>
             initialPreview: [<?= "'" . $config_current['image']['folder'] . $item['photo'] . "'" ?>],
         <?php endif; ?>
-        initialPreviewAsData: true,
-
-
     });
 </script>

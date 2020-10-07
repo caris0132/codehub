@@ -12,6 +12,8 @@ $config_type['san-pham']['product'] = [
     'cat' => false,
     'item' => false,
     'sub' => false,
+    'giaban' => true,
+    'giacu' => true,
     'image' => [
         'enable' => true,
         'folder' => UPLOAD_PRODUCT,
@@ -22,7 +24,7 @@ $config_type['san-pham']['product'] = [
         'mine_type' => MINE_TYPE_IMAGE,
     ],
     'gallery' => [
-        'enable' => false,
+        'enable' => true,
         'folder' => UPLOAD_PRODUCT,
         'width' => 300,
         'height' => 300,

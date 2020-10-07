@@ -165,28 +165,8 @@ function get_main_sub()
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="filer-gallery" class="label-filer-gallery mb-3">Album hình: (<?= $config_current['gallery']['mine_type'] ?>)</label>
-                                <input type="file" name="files[]" id="filer-gallery" multiple="multiple">
-                                <input type="hidden" class="col-filer" value="col-xl-3 col-sm-3 col-6">
-                                <input type="hidden" class="act-filer" value="man">
-                            </div>
-                            <?php if (count($gallery)) { ?>
-                                <div class="form-group form-group-gallery">
-                                    <label class="label-filer">Album hiện tại:</label>
-                                    <div class="action-filer mb-3">
-                                        <a class="btn btn-sm bg-gradient-primary text-white check-all-filer mr-1"><i class="far fa-square mr-2"></i>Chọn tất cả</a>
-                                        <button type="button" class="btn btn-sm bg-gradient-success text-white sort-filer mr-1"><i class="fas fa-random mr-2"></i>Sắp xếp</button>
-                                        <a class="btn btn-sm bg-gradient-danger text-white delete-all-filer" data-folder="product"><i class="far fa-trash-alt mr-2"></i>Xóa tất cả</a>
-                                    </div>
-                                    <div class="alert my-alert alert-sort-filer alert-info text-sm text-white bg-gradient-info"><i class="fas fa-info-circle mr-2"></i>Có thể chọn nhiều hình để di chuyển</div>
-                                    <div class="jFiler-items my-jFiler-items jFiler-row">
-                                        <ul class="jFiler-items-list jFiler-items-grid row scroll-bar" id="jFilerSortable">
-                                            <?php foreach ($gallery as $v) galleryFiler($v['stt'], $v['id'], $v['photo'], $v['tenvi'], 'product', 'col-xl-3 col-sm-3 col-6'); ?>
-                                        </ul>
-                                    </div>
-                                </div>
-                            <?php } ?>
+
+                            <input id="input_gallery" name="gallery[]" type="file" multiple>
                         </div>
                     </div>
                 <?php } ?>
@@ -406,3 +386,47 @@ function get_main_sub()
         })
     </script>
 <?php } ?>
+
+<?php if ($config_current['gallery']['enable']) : ?>
+    <?php
+    $gallery_json;
+    foreach ($gallery as $key => $value) {
+        $gallery_json[$key]['caption'] = $value['photo'];
+        $gallery_json[$key]['downloadUrl'] = $config_current['gallery']['folder'] . $value['photo'];
+        $gallery_json[$key]['key'] = $value['id'];
+        $gallery_json[$key]['stt'] = $value['stt'];
+        $gallery_json[$key]['extra']['com'] = $value['com'];
+        $gallery_json[$key]['extra']['type'] = $value['type'];
+        $gallery_json[$key]['extra']['id'] = $value['id'];
+        $gallery_json[$key]['extra']['folder'] = $config_current['gallery']['folder'];
+    }
+
+
+    $gallery_json = json_encode($gallery_json);
+    ?>
+    <script>
+        $(document).ready(function() {
+            var gallery_json = <?= $gallery_json ?> || [];
+            var gallery_url = gallery_json.map(function(value) {
+                return value['downloadUrl'];
+            })
+            $("#input_gallery").fileinput({
+                theme: "fas",
+                browseOnZoneClick: true,
+                initialPreviewAsData: true,
+                deleteUrl: "ajax/delete_image_gallery.php",
+                overwriteInitial: false,
+                showUpload: false,
+                maxFileSize: 10000, // KB
+                initialPreviewConfig: gallery_json,
+                initialPreview: gallery_url,
+                deleteExtraData: gallery_json,
+            });
+
+            $('#input_gallery').on('filesorted', function(event, params) {
+                console.log('File sorted ', params.previewId, params.oldIndex, params.newIndex, params.stack);
+                //su ly keo tha di a
+            });
+        });
+    </script>
+<?php endif; ?>

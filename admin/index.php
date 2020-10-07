@@ -18,8 +18,9 @@ AntiSQLInjection::sqlinjection();
 $d = new Database($config['database']);
 
 $com = $_REQUEST['com'] ? $_REQUEST['com'] : 'dashboard';
-$type = $_REQUEST['type'] ? $_REQUEST['type'] : 0;
+$type = $_REQUEST['type'];
 $act = $_REQUEST['act'];
+$curPage = $_REQUEST['p'] ? (int)$_REQUEST['p'] : 1;
 
 $config_current = $config_type[$type ? $type : 0][$com];
 
@@ -239,6 +240,16 @@ include COMPONENTS . "{$com}/index.php";
                 })
             };
         };
+    </script>
+    <script>
+        function noImg(that, width, height) {
+            width = width || 200;
+            height = height || 200;
+            that.removeAttribute('onerror');
+            that.removeEventListener('error', noImg);
+            //return that.src= "thumb/" + width + "x" + height + "/1/images/noimage.png";
+            return that.src = "https://via.placeholder.com/" + width + "x" + height;
+        }
     </script>
 </head>
 

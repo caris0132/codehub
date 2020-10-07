@@ -1,4 +1,5 @@
 <?php
+use App\Core\Helper;
 function get_main_list()
 {
     global $d, $type;
@@ -114,7 +115,7 @@ function get_main_brand()
 <section class="content">
     <div class="card-footer text-sm sticky-top">
         <a class="btn btn-sm bg-gradient-primary text-white" href="<?= $linkAdd ?>" title="Thêm mới"><i class="fas fa-plus mr-2"></i>Thêm mới</a>
-        <a class="btn btn-sm bg-gradient-danger text-white" id="delete-all" data-url="<?= $linkDelete ?><?= $strUrl ?>" title="Xóa tất cả"><i class="far fa-trash-alt mr-2"></i>Xóa tất cả</a>
+        <a class="btn btn-sm bg-gradient-danger text-white" id="delete-all" data-url="<?= $linkDelete ?>" title="Xóa tất cả"><i class="far fa-trash-alt mr-2"></i>Xóa tất cả</a>
         <div class="form-inline form-search d-inline-block align-middle ml-3">
             <div class="input-group input-group-sm">
                 <input class="form-control form-control-navbar text-sm" type="search" id="keyword" placeholder="Tìm kiếm" aria-label="Tìm kiếm" value="<?= $_GET['keyword'] ?>" onkeypress="doEnter(event,'keyword','<?= $linkMan ?>')">
@@ -199,7 +200,7 @@ function get_main_brand()
                                 </td>
                                 <?php if ($config_current['image']) { ?>
                                     <td class="align-middle">
-                                        <a href="<?= $linkEdit ?><?= $linkID ?>&id=<?= $items[$i]['id'] ?>" title="<?= $items[$i]['ten_vi'] ?>"><img class="rounded img-preview" onerror="src='assets/images/noimage.png'" src="<?= $config_base ?>/thumb/<?= $config_current['image']['width'] ?>x<?= $config_current['image']['height'] ?>/<?= $config_current['image']['style'] ?>/<?= UPLOAD_PRODUCT_L . $items[$i]['photo'] ?>" alt="<?= $items[$i]['ten_vi'] ?>"></a>
+                                        <a href="<?= $linkEdit ?><?= $linkID ?>&id=<?= $items[$i]['id'] ?>" title="<?= $items[$i]['ten_vi'] ?>"><img class="rounded img-preview" onerror="noImg(this, 100, 100)" src="<?= $config_base ?>/thumb/<?= $config_current['image']['width'] ?>x<?= $config_current['image']['height'] ?>/<?= $config_current['image']['style'] ?>/<?= UPLOAD_PRODUCT_L . $items[$i]['photo'] ?>" alt="<?= $items[$i]['ten_vi'] ?>"></a>
                                     </td>
                                 <?php } ?>
                                 <td class="align-middle">
@@ -218,7 +219,7 @@ function get_main_brand()
                                                 </ul>
                                             </div>
                                         <?php } ?>
-                                        <a class="text-danger" id="delete-item" data-url="<?= $linkDelete ?><?= $linkID ?>&id=<?= $items[$i]['id'] ?>" title="<?= $items[$i]['ten_vi'] ?>"><i class="far fa-trash-alt mr-1"></i>Delete</a>
+                                        <a class="text-danger" id="delete-item" data-url="<?= Helper::createLink(['act' => 'delete', 'id' => $items[$i]['id']]); ?>" title="<?= $items[$i]['ten_vi'] ?>"><i class="far fa-trash-alt mr-1"></i>Delete</a>
                                     </div>
                                 </td>
                                 <?php if (count($config_current['gallery'])) { ?>

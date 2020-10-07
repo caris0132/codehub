@@ -28,15 +28,22 @@ class Helper
         return md5($secret . $str . $salt);
     }
 
-    public static function isPermissionByAction($act)
+    public static function getTotalRuleByTypeAndCom($type, $com)
     {
-        return $_SESSION['login_admin']['is_root'] == 1 || Permission::getRoleByAction($act);
+        return 7;
     }
 
-    public static function getMenuPermission($name, $com, $act, $type = '', $icon_class = 'far fa-caret-square-right', $array = null, $case = 'phrase-1')
+    public static function isPermissionByAction($type, $com, $act_rule)
+    {
+        $value =self::getTotalRuleByTypeAndCom($type, $com);
+        return $_SESSION['login_admin']['is_root'] == 1 || Permission::checkRole($value, $act_rule);
+    }
+
+    public static function getMenuPermission($name, $com, $act, $type = '', $icon_class = 'far fa-caret-square-right')
     {
 
-        if (!self::isPermissionByAction($act)) {
+        $act_rule = Permission::getRoleByAction($act);
+        if (!self::isPermissionByAction($type, $com, $act_rule)) {
             return false;
         }
 
@@ -91,7 +98,7 @@ class Helper
         $start = ($page - 1) * $per_page;
         $prev = $page - 1;
         $next = $page + 1;
-        $lastpage = ceil($total / $per_page);
+        $lastpage = $total;
         $lpm1 = $lastpage - 1;
         $pagination = "";
 
@@ -178,6 +185,8 @@ class Helper
 
             $pagination .= "</ul>";
         }
+
+        return $pagination;
     }
 
     public static function transfer($msg, $page = "index.html", $stt = 1)
@@ -235,25 +244,25 @@ class Helper
 
     public static function uploadFile($file, $extension, $folder, $newname = '')
     {
-        if (isset($_FILES[$file]) && !$_FILES[$file]['error']) {
-            $ext = explode('.', $_FILES[$file]['name']);
+        if (isset($file) && !$file['error']) {
+            $ext = explode('.', $file['name']);
             $ext = $ext[count($ext) - 1];
-            $name = basename($_FILES[$file]['name'], '.' . $ext);
+            $name = basename($file['name'], '.' . $ext);
 
             if (strpos($extension, $ext) === false) {
                 self::alert('Chỉ hỗ trợ upload file dạng ' . $extension);
                 return false;
             }
 
-            if ($newname == '' && file_exists($folder . $_FILES[$file]['name']))
+            if ($newname == '' && file_exists($folder . $file['name']))
                 for ($i = 0; $i < 100; $i++) {
                     if (!file_exists($folder . $name . $i . '.' . $ext)) {
-                        $_FILES[$file]['name'] = $name . $i . '.' . $ext;
+                        $file['name'] = $name . $i . '.' . $ext;
                         break;
                     }
                 }
             else {
-                $_FILES[$file]['name'] = $newname . '.' . $ext;
+                $file['name'] = $newname . '.' . $ext;
             }
 
             // create folder if dont exist;
@@ -261,14 +270,19 @@ class Helper
                 var_dump(mkdir($folder, 0777, true));
             }
 
-            if (!copy($_FILES[$file]["tmp_name"], $folder . $_FILES[$file]['name'])) {
-                if (!move_uploaded_file($_FILES[$file]["tmp_name"], $folder . $_FILES[$file]['name'])) {
+            if (!copy($file["tmp_name"], $folder . $file['name'])) {
+                if (!move_uploaded_file($file["tmp_name"], $folder . $file['name'])) {
                     return false;
                 }
             }
-            return $_FILES[$file]['name'];
+            return $file['name'];
         }
         return false;
+    }
+
+    public static function deleteFile($file)
+    {
+        return @unlink($file);
     }
 
     public static function alert($message)
