@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\Database;
+
 class Seo
 {
     private $d;
@@ -10,6 +12,39 @@ class Seo
     function __construct($d)
     {
         $this->d = $d;
+    }
+
+    public static function getSEOByComID($com, $id)
+    {
+        if (empty($com) || empty($id)) {
+            throw new \Exception("component and id not empty");
+        }
+        $d = Database::getInstance();
+        $d->where('com', $com);
+        $d->where('own_id', $id);
+        return $result = $d->arrayChangeKeyValue($d->get('seo'), 'lang');
+    }
+
+    public static function saveSEOByComID($com, $id, $lang, $data)
+    {
+        if (empty($com) || empty($id) || empty($lang)) {
+            throw new \Exception("Some thing went wrong!");
+        }
+
+        $d = Database::getInstance();
+        $d->where('com', $com);
+        $d->where('own_id', $id);
+        $d->where('lang', $lang);
+
+        if ($row = $d->getOne('seo', 'id')) {
+            $d->where('id', $row['id']);
+            return $d->update('seo', $data);
+        } else {
+            return $d->insert('seo', $data);
+        }
+
+        return false;
+
     }
 
     public function setSeo($key, $value)

@@ -176,7 +176,7 @@ function get_main_sub()
                 if ($config_current['slug']) {
                     $slugchange = ($act == 'edit') ? 1 : 0;
                     $copy = ($act != 'copy') ? 0 : 1;
-                    include TEMPLATE . LAYOUT . "slug.php";
+                    include COMPONENTS . "layouts/slug.php";
                 }
                 ?>
                 <div class="card card-primary card-outline text-sm">
@@ -338,8 +338,7 @@ function get_main_sub()
                 </div>
                 <div class="card-body">
                     <?php
-                    $seoDB = $seo->getSeoDB($id, $com, 'man', $type);
-                    include TEMPLATE . LAYOUT . "seo.php";
+                    include COMPONENTS . "layouts/seo.php";
                     ?>
                 </div>
             </div>

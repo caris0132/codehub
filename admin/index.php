@@ -3,6 +3,8 @@
 use App\Core\AntiSQLInjection;
 use App\Core\Database;
 use App\Core\Helper;
+use App\Core\Lang;
+use App\Core\Seo;
 
 session_start();
 @define('LIBRARIES', '../libraries/');
@@ -14,15 +16,18 @@ require_once LIBRARIES . "config.php";
 require_once LIBRARIES . "type.php";
 
 AntiSQLInjection::sqlinjection();
+Lang::init($config['lang'], 'vi', $_SESSION['default_lang']);
+$lang = Lang::getCurrentLang();
 
 $d = new Database($config['database']);
-
+$d = Database::getInstance();
 $com = $_REQUEST['com'] ? $_REQUEST['com'] : 'dashboard';
 $type = $_REQUEST['type'];
 $act = $_REQUEST['act'];
 $curPage = $_REQUEST['p'] ? (int)$_REQUEST['p'] : 1;
 
 $config_current = $config_type[$type ? $type : 0][$com];
+
 
 include COMPONENTS . "{$com}/index.php";
 

@@ -2,6 +2,7 @@
 
 use App\Core\Database;
 use App\Core\Helper;
+use App\Core\Seo;
 
 $linkMan = Helper::createLink(['act' => 'man']);
 $linkAdd = Helper::createLink(['act' => 'add']);
@@ -24,6 +25,7 @@ switch ($act) {
         break;
 
     case 'edit':
+    case 'copy':
         get_man();
         $template = 'add';
         break;
@@ -63,7 +65,7 @@ function get_mans()
 
 function get_man()
 {
-    global $d, $item, $type, $com, $gallery;
+    global $d, $item, $type, $com,$act, $gallery, $config_current;
 
     $id = htmlspecialchars($_GET['id']);
     if (empty($id)) {
@@ -79,6 +81,13 @@ function get_man()
         $d->orderBy("stt","asc");
         $d->orderBy("id","asc");
         $gallery = $d->get('gallery',null, '*');
+    }
+
+    if ($act == 'copy') {
+        unset($item['photo']);
+        unset($item['id']);
+        unset($item['tenkhongdau']);
+        unset($gallery);
     }
 
 }
@@ -150,6 +159,13 @@ function save_man()
                 }
             }
 
+            if ($_POST['dataSeo']) {
+                $dataSeo = $_POST['dataSeo'];
+                foreach ($dataSeo as $key => $value) {
+                    Seo::saveSEOByComID($com, $id, $key, $value);
+                }
+            }
+
             if ($savehere) {
                 Helper::transfer('Cập nhật dữ liệu thành công!', Helper::createLink(['act' => 'edit', 'id' => $id]));
             } else {
@@ -203,6 +219,11 @@ function delete_man() {
 
 function delete_by_id ($id, $com) {
     global $config_current;
+
+    if (empty($id) || empty($com)) {
+        throw new Exception("id and component not empty", 0);
+    }
+
     $d = Database::getInstance();
     $d->where('id', $id);
     $row = $d->getOne($com, 'photo, id');
