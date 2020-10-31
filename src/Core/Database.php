@@ -16,10 +16,7 @@ class Database extends MysqliDb
         $query = str_replace('#_', self::$prefix, $query);
         return parent::rawQueryOne($query, $params);
     }
-    public function getLastInsertId()
-    {
-        return $this->_lastInsertId;
-    }
+
 
     public function insert($tableName, $insertData)
     {

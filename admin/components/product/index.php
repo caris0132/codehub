@@ -4,7 +4,7 @@ use App\Core\Database;
 use App\Core\Helper;
 use App\Core\Seo;
 
-$linkMan = Helper::createLink(['act' => 'man']);
+$linkMan = Helper::createLink(['act' => 'man', 'id' => null]);
 $linkAdd = Helper::createLink(['act' => 'add']);
 $linkCopy = Helper::createLink(['act' => 'copy']);
 $linkSave = Helper::createLink(['act' => 'save']);
@@ -125,8 +125,12 @@ function save_man()
         if ($image_name && $photo = Helper::uploadFile($_FILES['image'], $config_current['image']['mine_type'], $config_current['image']['folder'], $image_name)) {
             $data['photo'] = $photo;
 
-            $row = $d->rawQueryOne("select id, photo from #_{$com} where id = ? ", array($id, $type));
+            $row = $d->rawQueryOne("select id, photo from #_{$com} where id = ? ", array($id));
             if ($row['photo']) {
+                $path_cache = Helper::getRelativePath($config_current['image']['folder'] . $row['photo']);
+                if ($path_cache) {
+                    Helper::deleteCacheImage($path_cache);
+                }
                 Helper::deleteFile($config_current['image']['folder'] . $row['photo']);
             }
         }
@@ -137,6 +141,7 @@ function save_man()
         if ($d->update($com, $data)) {
 
             if ($_FILES['gallery']) {
+                $stt_start = (int)$d->getValue ("gallery", "count(*)");
                 foreach ($_FILES['gallery']['name'] as $key => $gallery_name) {
                     if ($gallery_name) {
                         $gallery['name'] = $gallery_name;
@@ -148,7 +153,7 @@ function save_man()
 
                         $gallery_photo = Helper::uploadFile($gallery, $config_current['gallery']['mine_type'], $config_current['gallery']['folder'],$gallery_name_rand);
                         $data1['photo'] = $gallery_photo;
-						$data1['stt'] = (int)$_POST['stthinh'][$key];
+						$data1['stt'] = $stt_start + $key;
                         $data1['type'] = $_GET['type'];
                         $data1['com'] = $com;
 						$data1['own_id'] = $id;
@@ -183,7 +188,7 @@ function save_man()
         $data['ngaytao'] = time();
 
         if($d->insert($com,$data)) {
-            $id_insert = $d->getLastInsertId();
+            $id_insert = $d->getInsertId();
             if ($savehere) {
                 Helper::transfer('Lưu dữ liệu thành công!', Helper::createLink(['act' => 'edit', 'id' => $id_insert]));
             } else {

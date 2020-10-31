@@ -5,6 +5,7 @@ use App\Core\Database;
 use App\Core\Helper;
 use App\Core\Lang;
 use App\Core\Seo;
+use App\Core\HandleImage;
 
 session_start();
 @define('LIBRARIES', '../libraries/');
@@ -21,6 +22,9 @@ $lang = Lang::getCurrentLang();
 
 $d = new Database($config['database']);
 $d = Database::getInstance();
+
+if (!defined('LIBRARIES')) die("Error");
+
 $com = $_REQUEST['com'] ? $_REQUEST['com'] : 'dashboard';
 $type = $_REQUEST['type'];
 $act = $_REQUEST['act'];

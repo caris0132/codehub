@@ -181,7 +181,7 @@
 .tool-action a{float:left;cursor:pointer;}
 
 /* Card */
-.card-footer.sticky-top{background-color:rgb(236,238,241);position:sticky;top:0px;z-index:11;}
+.card-footer.sticky-top{background-color:rgb(236,238,241);position:sticky;top:0px;z-index:1110;}
 
 /* Iamges */
 .img-upload{max-width:250px;}
@@ -299,6 +299,28 @@ select.form-control option:disabled{color:#b8babb;font-style:italic;}
 .select2-container--default .select2-selection--single .select2-selection__rendered{margin-top:-3px!important;}
 .select2-container--default .select2-selection--single .select2-selection__arrow b{margin-top:3px!important;}
 
+.file-drop-zone .file-preview-thumbnails {
+	display: flex;
+    flex-wrap: wrap;
+    flex-direction: inherit;
+    justify-content: flex-start;
+}
+
+.krajee-default.file-preview-frame {
+	width: 31%;
+	margin: 1%;
+}
+
+.krajee-default.file-preview-frame .kv-file-content {
+	width: 100%;
+	height: 140px;
+}
+
+.krajee-default .file-caption-info, .krajee-default .file-size-info {
+    width: 100%;
+
+}
+
 /* Responsive */
 @media(max-width:1201px){
 	.change-photo.text-center{display:inline-block;}
@@ -311,6 +333,17 @@ select.form-control option:disabled{color:#b8babb;font-style:italic;}
 	.form-search{width:100%;margin-left:0px!important;margin-top:0.75rem!important;}
 }
 @media(max-width:469px){
+    .file-drop-zone .file-preview-thumbnails {
+        max-height: 600px;
+        overflow: auto;
+    }
+    .krajee-default.file-preview-frame {
+        width: 48%;
+        margin: 1%;
+    }
+    .krajee-default.file-preview-frame .kv-file-content {
+        height: 100px;
+    }
 	.card-body{padding:0.75rem;}
 	.card-title-order{width:100%;margin-bottom:0.75rem;}
 	.btn-export-excel{margin-left:0px!important;}
@@ -318,5 +351,8 @@ select.form-control option:disabled{color:#b8babb;font-style:italic;}
 	.card-footer .btn{margin-bottom:0.25rem;}
 }
 @media(max-width:401px){
-	.main-header .navbar-nav .nav-item.nav-item-hello span,.label-filer{display:none;}
+    .main-header .navbar-nav .nav-item.nav-item-hello span,.label-filer{display:none;}
+    .file-drop-zone {
+        margin: auto;
+    }
 }

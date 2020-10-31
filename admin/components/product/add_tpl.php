@@ -100,62 +100,7 @@ function get_main_sub()
             <a class="btn btn-sm bg-gradient-danger" href="<?= $linkMan ?>" title="Thoát"><i class="fas fa-sign-out-alt mr-2"></i>Thoát</a>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <div class="card card-primary card-outline text-sm">
-                    <div class="card-header">
-                        <h3 class="card-title">Danh mục <?= $config_current['title_main'] ?></h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group-category row">
-                            <?php if ($config_current['list']) { ?>
-                                <div class="form-group col-xl-4 col-sm-4">
-                                    <label class="d-block" for="id_list">Danh mục cấp 1:</label>
-                                    <?= get_main_list() ?>
-                                </div>
-                            <?php } ?>
-                            <?php if ($config_current['cat']) { ?>
-                                <div class="form-group col-xl-4 col-sm-4">
-                                    <label class="d-block" for="id_cat">Danh mục cấp 2:</label>
-                                    <?= get_main_cat() ?>
-                                </div>
-                            <?php } ?>
-                            <?php if ($config_current['item']) { ?>
-                                <div class="form-group col-xl-4 col-sm-4">
-                                    <label class="d-block" for="id_item">Danh mục cấp 3:</label>
-                                    <?= get_main_item() ?>
-                                </div>
-                            <?php } ?>
-                            <?php if ($config_current['sub']) { ?>
-                                <div class="form-group col-xl-4 col-sm-4">
-                                    <label class="d-block" for="id_sub">Danh mục cấp 4:</label>
-                                    <?= get_main_sub() ?>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
-
-                <?php if ($config_current['image']['enable']) { ?>
-                    <div class="card card-primary card-outline text-sm">
-                        <div class="card-header">
-                            <h3 class="card-title">Hình ảnh <?= $config_current['title_main'] ?></h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <?php
-                            $photoDetail = $config_current['image']['folder'] . $item['photo'];
-                            $dimension = "Width: " . $config_current['image']['width'] . " px - Height: " . $config_current['image']['height'] . " px (" . $config_current['image']['mine_type'] . ")";
-                            include COMPONENTS . "layouts/image.php";
-                            ?>
-                        </div>
-                    </div>
-                <?php } ?>
-
+            <div class="col-md-8">
                 <?php if ($config_current['gallery']['enable']) { ?>
                     <div class="card card-primary card-outline text-sm">
                         <div class="card-header">
@@ -170,8 +115,6 @@ function get_main_sub()
                         </div>
                     </div>
                 <?php } ?>
-            </div>
-            <div class="col-md-12">
                 <?php
                 if ($config_current['slug']) {
                     $slugchange = ($act == 'edit') ? 1 : 0;
@@ -224,125 +167,187 @@ function get_main_sub()
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </div>
-        <div class="card card-primary card-outline text-sm">
-            <div class="card-header">
-                <h3 class="card-title">Thông tin <?= $config_current['title_main'] ?></h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="hienthi" class="d-inline-block align-middle mb-0 mr-2">Hiển thị:</label>
-                    <div class="custom-control custom-checkbox d-inline-block align-middle">
-                        <input type="checkbox" class="custom-control-input hienthi-checkbox" name="data[hienthi]" id="hienthi-checkbox" <?= (!isset($item['hienthi']) || $item['hienthi'] == 1) ? 'checked' : '' ?>>
-                        <label for="hienthi-checkbox" class="custom-control-label"></label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="stt" class="d-inline-block align-middle mb-0 mr-2">Số thứ tự:</label>
-                    <input type="number" class="form-control form-control-mini d-inline-block align-middle" min="0" name="data[stt]" id="stt" placeholder="Số thứ tự" value="<?= isset($item['stt']) ? $item['stt'] : 1 ?>">
-                </div>
-                <?php if ($config_current['file']) { ?>
-                    <div class="form-group">
-                        <label class="change-file mb-1 mr-2" for="file-taptin">
-                            <p>Upload tập tin:</p>
-                            <strong class="ml-2">
-                                <span class="btn btn-sm bg-gradient-success"><i class="fas fa-file-upload mr-2"></i>Chọn tập tin</span>
-                                <div><b class="text-sm text-split"></b></div>
-                            </strong>
-                        </label>
-                        <strong class="d-block mt-2 mb-2 text-sm"><?php echo $config_current['file_type']; ?></strong>
-                        <div class="custom-file my-custom-file d-none">
-                            <input type="file" class="custom-file-input" name="file-taptin" id="file-taptin">
-                            <label class="custom-file-label" for="file-taptin">Chọn file</label>
+                <?php if ($config_current['seo']) { ?>
+                    <div class="card card-primary card-outline text-sm">
+                        <div class="card-header">
+                            <h3 class="card-title">Nội dung SEO</h3>
+                            <a class="btn btn-sm bg-gradient-success d-inline-block text-white float-right create-seo" title="Tạo SEO">Tạo SEO</a>
                         </div>
-                        <?php if ($item['taptin']) { ?>
-                            <a class="btn btn-sm bg-gradient-primary text-white d-inline-block align-middle p-2 rounded mb-1" href="<?= UPLOAD_FILE . $item['taptin'] ?>" title="Download tập tin hiện tại"><i class="fas fa-download mr-2"></i>Download tập tin hiện tại</a>
-                        <?php } ?>
+                        <div class="card-body">
+                            <?php
+                            include COMPONENTS . "layouts/seo.php";
+                            ?>
+                        </div>
                     </div>
                 <?php } ?>
-                <div class="row">
-                    <?php if ($config_current['ma']) { ?>
-                        <div class="form-group col-md-4">
-                            <label class="d-block" for="masp">Mã sản phẩm:</label>
-                            <input type="text" class="form-control" name="data[masp]" id="masp" placeholder="Mã sản phẩm" value="<?= $item['masp'] ?>">
+            </div>
+            <div class="col-md-4">
+                <div class="sticky-top">
+                    <div class="card card-primary card-outline text-sm">
+                        <div class="card-header">
+                            <h3 class="card-title">Danh mục <?= $config_current['title_main'] ?></h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            </div>
                         </div>
-                    <?php } ?>
-                    <?php if ($config_current['gia']) { ?>
-                        <div class="form-group col-md-4">
-                            <label class="d-block" for="gia">Giá bán:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control format-price gia_ban" name="data[gia]" id="gia" placeholder="Giá bán" value="<?= $item['gia'] ?>">
-                                <div class="input-group-append">
-                                    <div class="input-group-text"><strong>VNĐ</strong></div>
+                        <div class="card-body">
+                            <div class="form-group-category row">
+                                <?php if ($config_current['list']) { ?>
+                                    <div class="form-group col-xl-6 col-sm-4">
+                                        <label class="d-block" for="id_list">Danh mục cấp 1:</label>
+                                        <?= get_main_list() ?>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['cat']) { ?>
+                                    <div class="form-group col-xl-6 col-sm-4">
+                                        <label class="d-block" for="id_cat">Danh mục cấp 2:</label>
+                                        <?= get_main_cat() ?>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['item']) { ?>
+                                    <div class="form-group col-xl-6 col-sm-4">
+                                        <label class="d-block" for="id_item">Danh mục cấp 3:</label>
+                                        <?= get_main_item() ?>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['sub']) { ?>
+                                    <div class="form-group col-xl-6 col-sm-4">
+                                        <label class="d-block" for="id_sub">Danh mục cấp 4:</label>
+                                        <?= get_main_sub() ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php if ($config_current['image']['enable']) { ?>
+                        <div class="card card-primary card-outline text-sm">
+                            <div class="card-header">
+                                <h3 class="card-title">Hình ảnh <?= $config_current['title_main'] ?></h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                                 </div>
+                            </div>
+                            <div class="card-body">
+                                <?php
+                                $photoDetail = $config_current['image']['folder'] . $item['photo'];
+                                $dimension = "Width: " . $config_current['image']['width'] . " px - Height: " . $config_current['image']['height'] . " px (" . $config_current['image']['mine_type'] . ")";
+                                include COMPONENTS . "layouts/image.php";
+                                ?>
                             </div>
                         </div>
                     <?php } ?>
-                    <?php if ($config_current['giamoi']) { ?>
-                        <div class="form-group col-md-4">
-                            <label class="d-block" for="giamoi">Giá mới:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control format-price gia_moi" name="data[giamoi]" id="giamoi" placeholder="Giá mới" value="<?= $item['giamoi'] ?>">
-                                <div class="input-group-append">
-                                    <div class="input-group-text"><strong>VNĐ</strong></div>
-                                </div>
+                    <div class="card card-primary card-outline text-sm">
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin <?= $config_current['title_main'] ?></h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                             </div>
                         </div>
-                    <?php } ?>
-                    <?php if ($config_current['giakm']) { ?>
-                        <div class="form-group col-md-4">
-                            <label class="d-block" for="giakm">Chiết khấu:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control gia_km" name="data[giakm]" id="giakm" placeholder="Chiết khấu" value="<?= $item['giakm'] ?>" maxlength="3" readonly>
-                                <div class="input-group-append">
-                                    <div class="input-group-text"><strong>%</strong></div>
+                        <div class="card-body">
+                            <?php foreach ($config_current['check'] as $key_check => $value_check) : ?>
+                                <div class="form-group">
+                                    <label for="<?= $key_check ?>" class="d-inline-block align-middle mb-0 mr-2"><?= $value_check ?>:</label>
+                                    <div class="custom-control custom-checkbox d-inline-block align-middle">
+                                        <input type="checkbox" class="custom-control-input <?= $key_check ?>-checkbox" name="data[<?= $key_check ?>]" id="<?= $key_check ?>-checkbox" <?= (!isset($item[$key_check]) || $item[$key_check] == 1) ? 'checked' : '' ?>>
+                                        <label for="<?= $key_check ?>-checkbox" class="custom-control-label"></label>
+                                    </div>
                                 </div>
+                            <?php endforeach; ?>
+
+                            <div class="form-group">
+                                <label for="stt" class="d-inline-block align-middle mb-0 mr-2">Số thứ tự:</label>
+                                <input type="number" class="form-control form-control-mini d-inline-block align-middle" min="0" name="data[stt]" id="stt" placeholder="Số thứ tự" value="<?= isset($item['stt']) ? $item['stt'] : 1 ?>">
+                            </div>
+                            <?php if ($config_current['file']) { ?>
+                                <div class="form-group">
+                                    <label class="change-file mb-1 mr-2" for="file-taptin">
+                                        <p>Upload tập tin:</p>
+                                        <strong class="ml-2">
+                                            <span class="btn btn-sm bg-gradient-success"><i class="fas fa-file-upload mr-2"></i>Chọn tập tin</span>
+                                            <div><b class="text-sm text-split"></b></div>
+                                        </strong>
+                                    </label>
+                                    <strong class="d-block mt-2 mb-2 text-sm"><?php echo $config_current['file_type']; ?></strong>
+                                    <div class="custom-file my-custom-file d-none">
+                                        <input type="file" class="custom-file-input" name="file-taptin" id="file-taptin">
+                                        <label class="custom-file-label" for="file-taptin">Chọn file</label>
+                                    </div>
+                                    <?php if ($item['taptin']) { ?>
+                                        <a class="btn btn-sm bg-gradient-primary text-white d-inline-block align-middle p-2 rounded mb-1" href="<?= UPLOAD_FILE . $item['taptin'] ?>" title="Download tập tin hiện tại"><i class="fas fa-download mr-2"></i>Download tập tin hiện tại</a>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                            <div class="row">
+                                <?php if ($config_current['ma']) { ?>
+                                    <div class="form-group col-md-4">
+                                        <label class="d-block" for="masp">Mã sản phẩm:</label>
+                                        <input type="text" class="form-control" name="data[masp]" id="masp" placeholder="Mã sản phẩm" value="<?= $item['masp'] ?>">
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['gia']) { ?>
+                                    <div class="form-group col-md-4">
+                                        <label class="d-block" for="gia">Giá bán:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control format-price gia_ban" name="data[gia]" id="gia" placeholder="Giá bán" value="<?= $item['gia'] ?>">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><strong>VNĐ</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['giamoi']) { ?>
+                                    <div class="form-group col-md-4">
+                                        <label class="d-block" for="giamoi">Giá mới:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control format-price gia_moi" name="data[giamoi]" id="giamoi" placeholder="Giá mới" value="<?= $item['giamoi'] ?>">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><strong>VNĐ</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['giakm']) { ?>
+                                    <div class="form-group col-md-4">
+                                        <label class="d-block" for="giakm">Chiết khấu:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control gia_km" name="data[giakm]" id="giakm" placeholder="Chiết khấu" value="<?= $item['giakm'] ?>" maxlength="3" readonly>
+                                            <div class="input-group-append">
+                                                <div class="input-group-text"><strong>%</strong></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['link']) { ?>
+                                    <div class="form-group col-md-4">
+                                        <label for="link">Link:</label>
+                                        <input type="text" class="form-control" name="data[link]" id="link" placeholder="Link" value="<?= $item['link'] ?>">
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['video']) { ?>
+                                    <div class="form-group col-md-4">
+                                        <label for="link_video">Video:</label>
+                                        <input type="text" class="form-control" name="data[link_video]" id="link_video" placeholder="Video" value="<?= $item['link_video'] ?>">
+                                    </div>
+                                <?php } ?>
+                                <?php if ($config_current['tinhtrang']) { ?>
+                                    <div class="form-group col-md-4">
+                                        <label for="tinhtrang">Tình trạng:</label>
+                                        <select class="form-control" name="data[tinhtrang]" id="tinhtrang">
+                                            <option value="0">Chọn tình trạng</option>
+                                            <option <?= ($item['tinhtrang'] == 1) ? "selected" : "" ?> value="1">Còn hàng</option>
+                                            <option <?= ($item['tinhtrang'] == 2) ? "selected" : "" ?> value="2">Hết hàng</option>
+                                        </select>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
-                    <?php } ?>
-                    <?php if ($config_current['link']) { ?>
-                        <div class="form-group col-md-4">
-                            <label for="link">Link:</label>
-                            <input type="text" class="form-control" name="data[link]" id="link" placeholder="Link" value="<?= $item['link'] ?>">
-                        </div>
-                    <?php } ?>
-                    <?php if ($config_current['video']) { ?>
-                        <div class="form-group col-md-4">
-                            <label for="link_video">Video:</label>
-                            <input type="text" class="form-control" name="data[link_video]" id="link_video" placeholder="Video" value="<?= $item['link_video'] ?>">
-                        </div>
-                    <?php } ?>
-                    <?php if ($config_current['tinhtrang']) { ?>
-                        <div class="form-group col-md-4">
-                            <label for="tinhtrang">Tình trạng:</label>
-                            <select class="form-control" name="data[tinhtrang]" id="tinhtrang">
-                                <option value="0">Chọn tình trạng</option>
-                                <option <?= ($item['tinhtrang'] == 1) ? "selected" : "" ?> value="1">Còn hàng</option>
-                                <option <?= ($item['tinhtrang'] == 2) ? "selected" : "" ?> value="2">Hết hàng</option>
-                            </select>
-                        </div>
-                    <?php } ?>
+                    </div>
                 </div>
             </div>
         </div>
-        <?php if ($config_current['seo']) { ?>
-            <div class="card card-primary card-outline text-sm">
-                <div class="card-header">
-                    <h3 class="card-title">Nội dung SEO</h3>
-                    <a class="btn btn-sm bg-gradient-success d-inline-block text-white float-right create-seo" title="Tạo SEO">Tạo SEO</a>
-                </div>
-                <div class="card-body">
-                    <?php
-                    include COMPONENTS . "layouts/seo.php";
-                    ?>
-                </div>
-            </div>
-        <?php } ?>
+
+
         <div class="card-footer text-sm">
             <button type="submit" class="btn btn-sm bg-gradient-primary submit-check"><i class="far fa-save mr-2"></i>Lưu</button>
             <button type="submit" class="btn btn-sm bg-gradient-success submit-check" name="save-here"><i class="far fa-save mr-2"></i>Lưu tại trang</button>
@@ -393,7 +398,8 @@ function get_main_sub()
         $gallery_json[$key]['caption'] = $value['photo'];
         $gallery_json[$key]['downloadUrl'] = $config_current['gallery']['folder'] . $value['photo'];
         $gallery_json[$key]['key'] = $value['id'];
-        $gallery_json[$key]['stt'] = $value['stt'];
+        $gallery_json[$key]['stt'] = $key;
+        $gallery_json[$key]['name'] = $value['ten'] ? $value['ten'] : '';
         $gallery_json[$key]['extra']['com'] = $value['com'];
         $gallery_json[$key]['extra']['type'] = $value['type'];
         $gallery_json[$key]['extra']['id'] = $value['id'];
@@ -408,22 +414,52 @@ function get_main_sub()
             var gallery_json = <?= $gallery_json ?> || [];
             var gallery_url = gallery_json.map(function(value) {
                 return value['downloadUrl'];
+            });
+            var initialPreviewThumbTags = gallery_json.map(function(value) {
+                let result = {
+                    '{TAG_NAME}': value.name, // no value
+                };
+
+                return result;
             })
             $("#input_gallery").fileinput({
                 theme: "fas",
                 browseOnZoneClick: true,
-                initialPreviewAsData: true,
                 deleteUrl: "ajax/delete_image_gallery.php",
-                overwriteInitial: false,
                 showUpload: false,
                 maxFileSize: 10000, // KB
+                initialPreviewAsData: true,
+                overwriteInitial: false,
                 initialPreviewConfig: gallery_json,
                 initialPreview: gallery_url,
                 deleteExtraData: gallery_json,
+                previewThumbTags: {
+                    '{TAG_NAME}': ''
+                },
+                initialPreviewThumbTags,
+                layoutTemplates: {
+                    footer: "" +
+                        "<td class='file-details-cell'>" +
+                        "<label>{caption}</label>" +
+                        "<input name='description' placeholder='Tên...' class='kv-input form-control mb-1' value={TAG_NAME}>" +
+                        "</td>" +
+                        "<td class='file-actions-cell'>" +
+                        "{indicator}\n{actions}" +
+                        "</td>",
+                },
             });
 
             $('#input_gallery').on('filesorted', function(event, params) {
                 console.log('File sorted ', params.previewId, params.oldIndex, params.newIndex, params.stack);
+                console.log(params);
+                $.ajax({
+                    url: 'ajax/sort_image_gallery.php',
+                    method: 'post',
+                    dataType: 'json',
+                    data: params,
+                }).done(function (result) {
+                    console.log(result)
+                })
                 //su ly keo tha di a
             });
         });

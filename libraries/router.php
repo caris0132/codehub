@@ -22,6 +22,7 @@ $router->map('GET|POST', '', 'index');
 $router->map('GET|POST', '/', 'index');
 $router->map('GET|POST', '/index.php', 'index', 'index');
 $router->map('GET|POST', '/sitemap.xml', 'sitemap.php', 'sitemap');
+$router->map('GET|POST', '/manifest.json', SOURCES . 'manifest.php', 'manifest');
 $router->map('GET|POST', '/thumb/[i:w]x[i:h]/[i:style]/[*:src]', 'thumbs.php');
 $router->map('GET|POST', '/[flug:com]', function ($com) {
     #code

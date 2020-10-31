@@ -3,9 +3,18 @@
 namespace App\Core;
 
 use App\Core\Permission;
+use League\Glide\ServerFactory;
+use League\Glide\Server;
 
 class Helper
 {
+    /**
+     * Static instance of Server
+     *
+     * @var Server
+     */
+    static $server_glide  = null;
+
     public static function redirect($url = '', $response = 301)
     {
         header("location:$url", true, $response);
@@ -288,6 +297,34 @@ class Helper
     public static function alert($message)
     {
         echo '<script language="javascript"> alert("' . $message . '") </script>';
+    }
+
+    public static function initGlideServer ($config = []) {
+        if (empty($config)) {
+            $config = [
+                'source' => ROOT,
+                'cache' => ROOT . '/' . UPLOAD_CACHE_L,
+            ];
+        }
+        self::$server_glide = ServerFactory::create($config);
+    }
+
+    public static function deleteCacheImage($path)
+    {
+        if (!self::$server_glide) {
+            self::initGlideServer();
+        }
+
+        return self::$server_glide->deleteCache($path);
+    }
+
+    public static function getRelativePath($path)
+    {
+        $path = realpath($path);
+        if (substr($path, 0, strlen(ROOT)) == ROOT) {
+            $path = substr($path, strlen(ROOT));
+        }
+        return $path;
     }
 
 
