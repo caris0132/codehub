@@ -83,12 +83,6 @@ function get_man()
         $gallery = $d->get('gallery',null, '*');
     }
 
-    if ($act == 'copy') {
-        unset($item['photo']);
-        unset($item['id']);
-        unset($item['tenkhongdau']);
-        unset($gallery);
-    }
 
 }
 

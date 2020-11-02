@@ -209,15 +209,7 @@ function get_main_brand()
                                             <a class="text-primary mr-3" href="<?= $linkDetailView ?>" target="_blank" title="<?= $items[$i]['ten_vi'] ?>"><i class="far fa-eye mr-1"></i>View</a>
                                         <?php } ?>
                                         <a class="text-info mr-3" href="<?= $linkDetailEdit ?>" title="<?= $items[$i]['ten_vi'] ?>"><i class="far fa-edit mr-1"></i>Edit</a>
-                                        <?php if ($config_current['copy']) { ?>
-                                            <div class="dropdown">
-                                                <a id="dropdownCopy" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-success p-0 pr-3"><i class="far fa-clone mr-1"></i>Copy</a>
-                                                <ul aria-labelledby="dropdownCopy" class="dropdown-menu border-0 shadow">
-                                                    <li><a href="#" class="dropdown-item copy-now" data-id="<?= $items[$i]['id'] ?>" data-table="product" data-copyimg="<?= $copyImg ?>"><i class="far fa-caret-square-right text-secondary mr-2"></i>Sao chép ngay</a></li>
-                                                    <li><a href="<?= $linkDetailCopy ?>" class="dropdown-item"><i class="far fa-caret-square-right text-secondary mr-2"></i>Chỉnh sửa thông tin</a></li>
-                                                </ul>
-                                            </div>
-                                        <?php } ?>
+
                                         <a class="text-danger" id="delete-item" data-url="<?= $linkDetailDelete; ?>" title="<?= $items[$i]['ten_vi'] ?>"><i class="far fa-trash-alt mr-1"></i>Delete</a>
                                     </div>
                                 </td>
@@ -248,15 +240,7 @@ function get_main_brand()
                                     </div>
                                 </td>
                                 <td class="align-middle text-center text-md text-nowrap">
-                                    <?php if ($config_current['copy']) { ?>
-                                        <div class="dropdown d-inline-block align-middle">
-                                            <a id="dropdownCopy" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-success p-0 pr-2"><i class="far fa-clone"></i></a>
-                                            <ul aria-labelledby="dropdownCopy" class="dropdown-menu border-0 shadow">
-                                                <li><a href="#" class="dropdown-item copy-now" data-id="<?= $items[$i]['id'] ?>" data-table="product"><i class="far fa-caret-square-right text-secondary mr-2"></i>Sao chép ngay</a></li>
-                                                <li><a href="<?= $linkCopy ?><?= $linkID ?>&id=<?= $items[$i]['id'] ?>" class="dropdown-item"><i class="far fa-caret-square-right text-secondary mr-2"></i>Chỉnh sửa thông tin</a></li>
-                                            </ul>
-                                        </div>
-                                    <?php } ?>
+
                                     <a class="text-primary mr-2" href="<?= $linkDetailEdit ?>" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
                                     <a class="text-danger" id="delete-item" data-url="<?= $linkDetailDelete ?>" title="Xóa"><i class="fas fa-trash-alt"></i></a>
                                 </td>
