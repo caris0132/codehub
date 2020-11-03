@@ -21,8 +21,8 @@ if (!@defined('LIBRARIES')) die("Error");
 
 @define('UPLOAD_USER', '../upload/user/');
 
-@define('UPLOAD_PRODUCT', '../upload/product/');
-@define('UPLOAD_PRODUCT_L', 'upload/product/');
+// @define('UPLOAD_PRODUCT', '../upload/product/');
+@define('UPLOAD_PRODUCT', 'upload/product/');
 
 @define('UPLOAD_COLOR', '../upload/mau/');
 @define('UPLOAD_COLOR_L', 'upload/mau/');
@@ -34,6 +34,10 @@ if (!@defined('LIBRARIES')) die("Error");
 @define('UPLOAD_TAGS_L', 'upload/tags/');
 
 @define('MINE_TYPE_IMAGE', 'jpg|gif|png|jpeg|gif|JPG|PNG|JPEG|Png|GIF');
+@define('MINE_TYPE_VIDEO', 'mp4|webm|MP4|WEBM');
+@define('MINE_TYPE_AUDIO', 'mp3|wav|aac|MP3|WAV|AAC');
+@define('MINE_TYPE_OFFICE', 'doc|docx|xls|xlsx|DOC|DOCX|XLS|XLSX');
+@define('MINE_TYPE_PDF', 'pdf|PDF');
 
 
 @define('UPLOAD_CACHE', '../upload/cache/');

@@ -11,7 +11,7 @@
 <body>
 
     <!-- <script src="assets/js/sw.js"> </script> -->
-    <script>
+    <!-- <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker
                 .register("assets/js/sw.js", {
@@ -24,7 +24,7 @@
                     console.log(err);
                 })
         }
-    </script>
+    </script> -->
 </body>
 
 </html>

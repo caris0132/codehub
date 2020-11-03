@@ -33,7 +33,7 @@ $config_type['san-pham']['product'] = [
         'height' => 300,
         'style' => 1,
         'ratio' => 2,
-        'mine_type' => MINE_TYPE_IMAGE,
+        'mine_type' => implode('|', [MINE_TYPE_IMAGE, MINE_TYPE_VIDEO, MINE_TYPE_OFFICE]),
     ],
     'check' => [
         'hienthi' => 'Hiển thị',

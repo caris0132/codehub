@@ -40,10 +40,24 @@ class Seo
             $d->where('id', $row['id']);
             return $d->update('seo', $data);
         } else {
+
             return $d->insert('seo', $data);
         }
 
         return false;
+
+    }
+
+    public static function deleteSEOByComID($com, $id)
+    {
+        if (empty($com) || empty($id)) {
+            throw new \Exception("Some thing went wrong!");
+        }
+
+        $d = Database::getInstance();
+        $d->where('com', $com);
+        $d->where('own_id', $id);
+        return !!$d->delete('seo'); // !!$d->delete('seo') convert về boolean
 
     }
 

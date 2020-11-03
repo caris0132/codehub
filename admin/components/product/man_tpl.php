@@ -198,8 +198,9 @@ function get_main_brand()
                                     <input type="number" class="form-control form-control-mini m-auto update-stt" min="0" value="<?= $items[$i]['stt'] ?>" data-id="<?= $items[$i]['id'] ?>" data-table="product">
                                 </td>
                                 <?php if ($config_current['image']) { ?>
+                                    <?php $photo_src = Helper::getStaticUrl("thumb/100x100/1/" . $config_current['image']['folder'] . $items[$i]['photo'] ) ?>
                                     <td class="align-middle">
-                                        <a href="<?= $linkDetailEdit ?>" title="<?= $items[$i]['ten_vi'] ?>"><img class="rounded img-preview" onerror="noImg(this, 100, 100)" src="<?= $config_base ?>/thumb/<?= $config_current['image']['width'] ?>x<?= $config_current['image']['height'] ?>/<?= $config_current['image']['style'] ?>/<?= UPLOAD_PRODUCT_L . $items[$i]['photo'] ?>" alt="<?= $items[$i]['ten_vi'] ?>"></a>
+                                        <a href="<?= $linkDetailEdit ?>" title="<?= $items[$i]['ten_vi'] ?>"><img class="rounded img-preview" onerror="noImg(this, 100, 100)" src="<?= $photo_src ?>" alt="<?= $items[$i]['ten_vi'] ?>"></a>
                                     </td>
                                 <?php } ?>
                                 <td class="align-middle">
@@ -219,6 +220,7 @@ function get_main_brand()
                                             <button type="button" class="btn btn-sm bg-gradient-success dropdown-toggle" id="dropdown-gallery" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Thêm</button>
                                             <div class="dropdown-menu" aria-labelledby="dropdown-gallery">
                                                 <?php foreach ($config_current['gallery'] as $key => $value) { ?>
+                                                <?php var_dump($value) ?>
                                                     <a class="dropdown-item text-dark" href="<?= $linkMulti ?>&idc=<?= $items[$i]['id'] ?>&val=<?= $key ?>" title="<?= $value['title_sub_photo'] ?>"><i class="far fa-caret-square-right text-secondary mr-2"></i><?= $value['title_sub_photo'] ?></a>
                                                 <?php } ?>
                                             </div>

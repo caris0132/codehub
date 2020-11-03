@@ -2,18 +2,46 @@
 
 namespace App\Core;
 
-use App\Core\Permission;
-use League\Glide\ServerFactory;
-use League\Glide\Server;
-
 class Helper
 {
     /**
      * Static instance of Server
      *
-     * @var Server
+     * @var \League\Glide\ServerServer
      */
     static $server_glide  = null;
+
+    public static function initGlideServer($config = [])
+    {
+        if (empty($config)) {
+            $config = [
+                'source' => ROOT,
+                'cache' => ROOT . '/' . UPLOAD_CACHE_L,
+            ];
+        }
+        self::$server_glide = \League\Glide\ServerFactory::create($config);
+    }
+
+    /**
+     * Static instance of Filesystem
+     *
+     * @var \League\Flysystem\Filesystem
+     */
+    static $filesystem = null;
+
+    public static function initFilesystem()
+    {
+        $adapter = new \League\Flysystem\Adapter\Local(ROOT);
+        return self::$filesystem = new \League\Flysystem\Filesystem($adapter);
+    }
+
+    public static function getFilesystem()
+    {
+        if (empty(self::$filesystem)) {
+            return self::initFilesystem();
+        }
+        return self::$filesystem;
+    }
 
     public static function redirect($url = '', $response = 301)
     {
@@ -37,6 +65,12 @@ class Helper
         return md5($secret . $str . $salt);
     }
 
+    public static function getStaticUrl($path)
+    {
+        global $config_base;
+        return $config_base . '/' . $path;
+    }
+
     public static function getTotalRuleByTypeAndCom($type, $com)
     {
         return 7;
@@ -44,7 +78,7 @@ class Helper
 
     public static function isPermissionByAction($type, $com, $act_rule)
     {
-        $value =self::getTotalRuleByTypeAndCom($type, $com);
+        $value = self::getTotalRuleByTypeAndCom($type, $com);
         return $_SESSION['login_admin']['is_root'] == 1 || Permission::checkRole($value, $act_rule);
     }
 
@@ -251,6 +285,18 @@ class Helper
         return $result;
     }
 
+    public static function checkFileNameIsType($filename, $type)
+    {
+        $ext = explode('.', $filename);
+        $ext = $ext[count($ext) - 1];
+
+        if (strpos($type, $ext) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static function uploadFile($file, $extension, $folder, $newname = '')
     {
         if (isset($file) && !$file['error']) {
@@ -263,9 +309,9 @@ class Helper
                 return false;
             }
 
-            if ($newname == '' && file_exists($folder . $file['name']))
+            if ($newname == '' && self::getFilesystem()->has($folder . $file['name']))
                 for ($i = 0; $i < 100; $i++) {
-                    if (!file_exists($folder . $name . $i . '.' . $ext)) {
+                    if (!self::getFilesystem()->has($folder . $name . $i . '.' . $ext)) {
                         $file['name'] = $name . $i . '.' . $ext;
                         break;
                     }
@@ -274,16 +320,16 @@ class Helper
                 $file['name'] = $newname . '.' . $ext;
             }
 
-            // create folder if dont exist;
-            if (!file_exists($folder)) {
-                var_dump(mkdir($folder, 0777, true));
+
+            $stream = fopen($file['tmp_name'], 'r+');
+            self::getFilesystem()->writeStream(
+                $folder . $file['name'],
+                $stream
+            );
+            if (is_resource($stream)) {
+                fclose($stream);
             }
 
-            if (!copy($file["tmp_name"], $folder . $file['name'])) {
-                if (!move_uploaded_file($file["tmp_name"], $folder . $file['name'])) {
-                    return false;
-                }
-            }
             return $file['name'];
         }
         return false;
@@ -299,15 +345,7 @@ class Helper
         echo '<script language="javascript"> alert("' . $message . '") </script>';
     }
 
-    public static function initGlideServer ($config = []) {
-        if (empty($config)) {
-            $config = [
-                'source' => ROOT,
-                'cache' => ROOT . '/' . UPLOAD_CACHE_L,
-            ];
-        }
-        self::$server_glide = ServerFactory::create($config);
-    }
+
 
     public static function deleteCacheImage($path)
     {
@@ -326,6 +364,4 @@ class Helper
         }
         return $path;
     }
-
-
 }

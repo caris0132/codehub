@@ -66,6 +66,7 @@ include COMPONENTS . "{$com}/index.php";
 
     <!-- JS -->
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/axios/axios.min.js"></script>
     <script src="assets/js/moment.min.js"></script>
     <script src="assets/sweetalert2/sweetalert2.js"></script>
     <script src="assets/select2/select2.full.js"></script>
@@ -258,6 +259,14 @@ include COMPONENTS . "{$com}/index.php";
             that.removeEventListener('error', noImg);
             //return that.src= "thumb/" + width + "x" + height + "/1/images/noimage.png";
             return that.src = "https://via.placeholder.com/" + width + "x" + height;
+        }
+
+        function debounce(fn, ms) {
+            let timer = 0
+            return function(...args) {
+                clearTimeout(timer)
+                timer = setTimeout(fn.bind(this, ...args), ms || 0)
+            }
         }
     </script>
 </head>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\Helper;
+
 function get_main_list()
 {
     global $d, $type;
@@ -230,7 +232,7 @@ function get_main_sub()
                             </div>
                             <div class="card-body">
                                 <?php
-                                $photoDetail = $config_current['image']['folder'] . $item['photo'];
+                                $photoDetail = Helper::getStaticUrl($config_current['image']['folder'] . $item['photo']);
                                 $dimension = "Width: " . $config_current['image']['width'] . " px - Height: " . $config_current['image']['height'] . " px (" . $config_current['image']['mine_type'] . ")";
                                 include COMPONENTS . "layouts/image.php";
                                 ?>
@@ -395,8 +397,26 @@ function get_main_sub()
     <?php
     $gallery_json;
     foreach ($gallery as $key => $value) {
+
         $gallery_json[$key]['caption'] = $value['photo'];
-        $gallery_json[$key]['downloadUrl'] = $config_current['gallery']['folder'] . $value['photo'];
+        $gallery_json[$key]['downloadUrl'] = Helper::getStaticUrl($config_current['gallery']['folder'] . $value['photo']);
+
+
+
+        $gallery_json[$key]['filetype'] = Helper::getFilesystem()->getMimetype($config_current['gallery']['folder'] . $value['photo']);
+
+        $filetype_arr = explode('/', $gallery_json[$key]['filetype']);
+        if ($filetype_arr[0] == 'application') {
+            if (Helper::checkFileNameIsType($value['photo'], MINE_TYPE_OFFICE)) {
+                $gallery_json[$key]['type'] = 'office';
+            } elseif (Helper::checkFileNameIsType($value['photo'], MINE_TYPE_PDF)) {
+                $gallery_json[$key]['type'] = 'pdf';
+            }
+
+        } else {
+            $gallery_json[$key]['type'] = $filetype_arr[0];
+        }
+
         $gallery_json[$key]['key'] = $value['id'];
         $gallery_json[$key]['stt'] = $key;
         $gallery_json[$key]['name'] = $value['ten'] ? $value['ten'] : '';
@@ -417,7 +437,8 @@ function get_main_sub()
             });
             var initialPreviewThumbTags = gallery_json.map(function(value) {
                 let result = {
-                    '{TAG_NAME}': value.name, // no value
+                    '{TAG_NAME}': value.name,
+                    '{ID}': value.extra.id
                 };
 
                 return result;
@@ -434,14 +455,15 @@ function get_main_sub()
                 initialPreview: gallery_url,
                 deleteExtraData: gallery_json,
                 previewThumbTags: {
-                    '{TAG_NAME}': ''
+                    '{TAG_NAME}': '',
+                    '{ID}': 0
                 },
                 initialPreviewThumbTags,
                 layoutTemplates: {
                     footer: "" +
                         "<td class='file-details-cell'>" +
                         "<label>{caption}</label>" +
-                        "<input name='description' placeholder='Tên...' class='kv-input form-control mb-1' value={TAG_NAME}>" +
+                        "<input name='gallery_name[]' data-id='{ID}' placeholder='Tên...' class='kv-input form-control mb-1 jk-gallery-name' value='{TAG_NAME}'>" +
                         "</td>" +
                         "<td class='file-actions-cell'>" +
                         "{indicator}\n{actions}" +
@@ -450,18 +472,43 @@ function get_main_sub()
             });
 
             $('#input_gallery').on('filesorted', function(event, params) {
-                console.log('File sorted ', params.previewId, params.oldIndex, params.newIndex, params.stack);
-                console.log(params);
                 $.ajax({
                     url: 'ajax/sort_image_gallery.php',
                     method: 'post',
                     dataType: 'json',
                     data: params,
-                }).done(function (result) {
+                }).done(function(result) {
                     console.log(result)
                 })
                 //su ly keo tha di a
             });
+
+            $('body').on('keyup', '.jk-gallery-name', debounce(function(e) {
+                var id = $(this).data('id');
+                var ten = $(this).val();
+
+                params = {
+                    id,
+                    data: {
+                        ten
+                    }
+                };
+
+                if (!id) {
+                    return;
+                }
+
+                $.ajax({
+                    url: 'ajax/attr_image_gallery.php',
+                    method: 'post',
+                    dataType: 'json',
+                    data: params,
+                }).done(function(result) {
+                    console.log(result)
+                })
+
+            }, 300))
+
         });
     </script>
 <?php endif; ?>

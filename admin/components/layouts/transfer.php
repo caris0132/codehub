@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <TITLE>:: Thông Báo ::</TITLE>
-    <base href="<?=$basehref?>"/>
+    <base href="<?=$basehref?>/"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="REFRESH" content="4.5; url=<?=$page_transfer?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
