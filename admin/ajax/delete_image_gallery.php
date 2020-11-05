@@ -1,12 +1,13 @@
 <?php
 
 use App\Core\Helper;
+use Symfony\Component\HttpFoundation\Response;
 
 require_once 'ajax_config.php';
 
 $id = (int)$_POST['id'];
 $folder = $_POST['folder'];
-$result = '';
+$result[] = 'ada';
 if ($id) {
     $d->where('id', $id);
     $row_gallery = $d->getOne('gallery');
@@ -30,4 +31,4 @@ if ($id) {
     }
 }
 
-echo json_encode($result);
+return Helper::jsonResponse($result, Response::HTTP_OK)->send();

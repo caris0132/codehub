@@ -43,6 +43,53 @@ class Helper
         return self::$filesystem;
     }
 
+    /**
+     * Static instance of Request global
+     *
+     * @var \Symfony\Component\HttpFoundation\Request
+     */
+    static $_request_global= null;
+    public static function getRequest()
+    {
+        if (empty(self::$_request_global)) {
+            return self::initRequest();
+        }
+        return self::$_request_global;
+    }
+
+    public static function initRequest()
+    {
+        return self::$_request_global = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+    }
+
+    /**
+     * Factory method for response.
+     *
+     * @param mixed $content The response content, see setContent()
+     * @param int   $status  The response status code
+     * @param array $headers An array of response headers
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public static function response($content, $status = 200, $headers = [])
+    {
+        return new \Symfony\Component\HttpFoundation\Response($content, $status, $headers);
+    }
+
+    /**
+     * Factory method for JsonResponse.
+     *
+     * @param mixed $content The response content, see setContent()
+     * @param int   $status  The response status code
+     * @param array $headers An array of response headers
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public static function jsonResponse($content, $status = 200, $headers = [])
+    {
+        return new \Symfony\Component\HttpFoundation\JsonResponse($content, $status, $headers);
+    }
+
     public static function redirect($url = '', $response = 301)
     {
         header("location:$url", true, $response);
@@ -364,4 +411,6 @@ class Helper
         }
         return $path;
     }
+
+
 }
